@@ -19,12 +19,19 @@ import os
 import socket
 import struct
 import sys
+import threading
 
 from node_names import load_names, name_for
 
 PORT = 5300
 HEADER = struct.Struct("<BBHI")
 FRAMES_DIR = os.path.join(os.path.dirname(__file__), "frames")
+
+# A hard reset on the Gateway (no clean FIN/RST) can leave a connection
+# ESTABLISHED on this side with no more data ever coming -- without a
+# timeout, recv() blocks forever on it. 30s is generous next to the video
+# producer's ~300ms/frame cadence, so it only fires on a genuinely dead peer.
+RECV_TIMEOUT_S = 30.0
 
 
 def recv_all(conn: socket.socket, size: int) -> bytes | None:
@@ -38,6 +45,7 @@ def recv_all(conn: socket.socket, size: int) -> bytes | None:
 
 
 def handle_connection(conn: socket.socket, addr, names: dict[int, str]) -> None:
+    conn.settimeout(RECV_TIMEOUT_S)
     print(f"[video] connected: {addr}")
     while True:
         header_bytes = recv_all(conn, HEADER.size)
@@ -68,17 +76,27 @@ def main() -> None:
     srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     srv.bind(("0.0.0.0", PORT))
-    srv.listen(1)
+    srv.listen(4)
     print(f"[video] listening on :{PORT}, writing frames under {FRAMES_DIR}/<node name>/streamN/")
 
     while True:
         conn, addr = srv.accept()
-        try:
-            handle_connection(conn, addr, names)
-        except (ConnectionResetError, BrokenPipeError):
-            print(f"[video] connection error: {addr}")
-        finally:
-            conn.close()
+        # One thread per connection: a Gateway reboot (no clean FIN/RST)
+        # would otherwise leave this thread's recv() blocked on a dead peer
+        # and -- if this ran inline in the accept loop -- prevent the next,
+        # freshly-reconnected Gateway from ever being accepted.
+        threading.Thread(target=serve_connection, args=(conn, addr, names), daemon=True).start()
+
+
+def serve_connection(conn: socket.socket, addr, names: dict[int, str]) -> None:
+    try:
+        handle_connection(conn, addr, names)
+    except (ConnectionResetError, BrokenPipeError):
+        print(f"[video] connection error: {addr}")
+    except TimeoutError:
+        print(f"[video] no data for {RECV_TIMEOUT_S:.0f}s, dropping stale connection: {addr}")
+    finally:
+        conn.close()
 
 
 if __name__ == "__main__":
