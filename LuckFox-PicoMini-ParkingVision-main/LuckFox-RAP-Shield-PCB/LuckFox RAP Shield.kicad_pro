@@ -547,7 +547,7 @@
     "last_paths": {
       "gencad": "",
       "idf": "",
-      "netlist": "../../../LuckFox RAP Shield.net",
+      "netlist": "",
       "plot": "",
       "specctra_dsn": "",
       "step": "",
@@ -697,7 +697,7 @@
         "uuid": "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
       }
     ],
-    "used_designators": "#PWR1-2",
+    "used_designators": "U1,#PWR1-2",
     "variants": []
   },
   "sheets": [
