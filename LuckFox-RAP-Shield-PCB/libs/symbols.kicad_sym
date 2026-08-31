@@ -769,7 +769,7 @@
       )
     )
   )
-  (symbol "Input_Protection_DCJack_12V"
+  (symbol "External_5V_Input_from_Buck_Module"
     (in_bom yes)
     (on_board yes)
     (property "Reference" "J"
@@ -781,7 +781,7 @@
         )
       )
     )
-    (property "Value" "DCJack_5.5x2.1mm+ReversePolarityDiode+PTCfuse3A+TVS"
+    (property "Value" "External_5V_Input_from_Buck_Module"
       (id 1)
       (at 0 11.43 0)
       (effects
@@ -797,7 +797,7 @@
         (font
           (size 1.27 1.27)
         )
-        hide
+      hide
       )
     )
     (property "Datasheet" ""
@@ -807,13 +807,13 @@
         (font
           (size 1.27 1.27)
         )
-        hide
+      hide
       )
     )
-    (symbol "Input_Protection_DCJack_12V_0_1"
+    (symbol "External_5V_Input_from_Buck_Module_0_1"
       (rectangle
-        (start -17.5 6.35)
-        (end 17.5 -6.35)
+        (start -10 6.35)
+        (end 10 -6.35)
         (stroke
           (width 0)
           (type default)
@@ -824,11 +824,11 @@
         )
       )
     )
-    (symbol "Input_Protection_DCJack_12V_1_1"
+    (symbol "External_5V_Input_from_Buck_Module_1_1"
       (pin input line
-        (at -17.5 2.54 180)
+        (at 10 2.54 0)
         (length 2.54)
-        (name "DC_IN_V+_12V"
+        (name "5V_IN"
           (effects
             (font
               (size 1.27 1.27)
@@ -844,137 +844,7 @@
         )
       )
       (pin input line
-        (at -17.5 -2.54 180)
-        (length 2.54)
-        (name "DC_IN_GND"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "2"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-      )
-      (pin output line
-        (at 17.5 2.54 0)
-        (length 2.54)
-        (name "PROTECTED_12V_OUT"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "3"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-      )
-      (pin output line
-        (at 17.5 -2.54 0)
-        (length 2.54)
-        (name "GND"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "4"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-      )
-    )
-  )
-  (symbol "MP1584EN_Buck_12Vto5V_3A"
-    (in_bom yes)
-    (on_board yes)
-    (property "Reference" "U"
-      (id 0)
-      (at 0 8.89 0)
-      (effects
-        (font
-          (size 1.27 1.27)
-        )
-      )
-    )
-    (property "Value" "MP1584EN_Buck_5V_3A (Cin=10uF Cout=22uF L=10uH per MPS datasheet)"
-      (id 1)
-      (at 0 11.43 0)
-      (effects
-        (font
-          (size 1.27 1.27)
-        )
-      )
-    )
-    (property "Footprint" ""
-      (id 2)
-      (at 0 0 0)
-      (effects
-        (font
-          (size 1.27 1.27)
-        )
-        hide
-      )
-    )
-    (property "Datasheet" ""
-      (id 3)
-      (at 0 0 0)
-      (effects
-        (font
-          (size 1.27 1.27)
-        )
-        hide
-      )
-    )
-    (symbol "MP1584EN_Buck_12Vto5V_3A_0_1"
-      (rectangle
-        (start -17.5 6.35)
-        (end 17.5 -6.35)
-        (stroke
-          (width 0)
-          (type default)
-          (color 0 0 0 0)
-        )
-        (fill
-          (type none)
-        )
-      )
-    )
-    (symbol "MP1584EN_Buck_12Vto5V_3A_1_1"
-      (pin input line
-        (at -17.5 2.54 180)
-        (length 2.54)
-        (name "VIN_12V"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "1"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-      )
-      (pin input line
-        (at -17.5 -2.54 180)
+        (at 10 -2.54 0)
         (length 2.54)
         (name "GND_IN"
           (effects
@@ -984,42 +854,6 @@
           )
         )
         (number "2"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-      )
-      (pin output line
-        (at 17.5 2.54 0)
-        (length 2.54)
-        (name "VOUT_5V_3A"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "3"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-      )
-      (pin output line
-        (at 17.5 -2.54 0)
-        (length 2.54)
-        (name "GND_OUT"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "4"
           (effects
             (font
               (size 1.27 1.27)
