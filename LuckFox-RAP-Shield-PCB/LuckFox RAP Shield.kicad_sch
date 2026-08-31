@@ -613,13 +613,13 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Breakout board symbols:MP1584EN_Buck_12Vto5V_3A"
+		(symbol "Breakout board symbols:External_5V_Input_from_Buck_Module"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
+			(property "Reference" "J"
 				(at 0 8.89 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -629,7 +629,7 @@
 					)
 				)
 			)
-			(property "Value" "MP1584EN_Buck_5V_3A (Cin=10uF Cout=22uF L=10uH per MPS datasheet)"
+			(property "Value" "External_5V_Input_from_Buck_Module"
 				(at 0 11.43 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -672,10 +672,10 @@
 					)
 				)
 			)
-			(symbol "MP1584EN_Buck_12Vto5V_3A_0_1"
+			(symbol "External_5V_Input_from_Buck_Module_0_1"
 				(rectangle
-					(start -17.5 6.35)
-					(end 17.5 -6.35)
+					(start -10 6.35)
+					(end 10 -6.35)
 					(stroke
 						(width 0)
 						(type default)
@@ -685,11 +685,11 @@
 					)
 				)
 			)
-			(symbol "MP1584EN_Buck_12Vto5V_3A_1_1"
+			(symbol "External_5V_Input_from_Buck_Module_1_1"
 				(pin input line
-					(at -17.5 2.54 180)
+					(at 10 2.54 0)
 					(length 2.54)
-					(name "VIN_12V"
+					(name "5V_IN"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -705,7 +705,7 @@
 					)
 				)
 				(pin input line
-					(at -17.5 -2.54 180)
+					(at 10 -2.54 0)
 					(length 2.54)
 					(name "GND_IN"
 						(effects
@@ -722,44 +722,7 @@
 						)
 					)
 				)
-				(pin output line
-					(at 17.5 2.54 0)
-					(length 2.54)
-					(name "VOUT_5V_3A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 17.5 -2.54 0)
-					(length 2.54)
-					(name "GND_OUT"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "Breakout board symbols:W5500_Ethernet_Module"
 			(exclude_from_sim no)
@@ -976,260 +939,6 @@
 								(size 1.27 1.27)
 							)
 						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "power:+12V"
-			(power global)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "+12V"
-				(at 0 3.556 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+12V\""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "+12V_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+12V_1_1"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "power:-12V"
-			(power global)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "-12V"
-				(at 0 3.556 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"-12V\""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "-12V_0_0"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(symbol "-12V_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 1.27) (xy 0.762 1.27) (xy 0 2.54) (xy -0.762 1.27) (xy 0 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
 					)
 				)
 			)
@@ -1774,16 +1483,6 @@
 	)
 	(wire
 		(pts
-			(xy 39.37 86.36) (xy 39.37 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b0dbb37a-d05b-4b0a-baaf-b9f75a74eee3")
-	)
-	(wire
-		(pts
 			(xy 16.51 144.78) (xy 16.51 168.91)
 		)
 		(stroke
@@ -1801,16 +1500,6 @@
 			(type default)
 		)
 		(uuid "b5fc19db-5f0d-4b7b-a0f3-024c7aa45991")
-	)
-	(wire
-		(pts
-			(xy 39.37 91.44) (xy 157.48 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b7cc4ba6-798c-413f-b935-635d36696996")
 	)
 	(wire
 		(pts
@@ -1931,16 +1620,6 @@
 			(type default)
 		)
 		(uuid "dfb8bb02-d8bb-4f46-9b14-dce31e165f08")
-	)
-	(wire
-		(pts
-			(xy 48.26 96.52) (xy 48.26 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e38c78e2-4016-4c0e-86a1-8aaa4585365d")
 	)
 	(wire
 		(pts
@@ -2101,16 +1780,6 @@
 			(type default)
 		)
 		(uuid "f75e18fc-0dcc-499c-af1a-fb55c4446850")
-	)
-	(wire
-		(pts
-			(xy 48.26 96.52) (xy 157.48 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f8e55724-8446-4b0b-adc0-8418c807aeb6")
 	)
 	(wire
 		(pts
@@ -2299,8 +1968,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Breakout board symbols:MP1584EN_Buck_12Vto5V_3A")
-		(at 177.8 93.98 0)
+		(lib_id "Breakout board symbols:External_5V_Input_from_Buck_Module")
+		(at 185.3 93.98 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2308,9 +1977,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "009e50e7-048e-4da1-9509-8ee7bf94bd4b")
-		(property "Reference" "U3"
-			(at 177.8 88.98 0)
+		(uuid "a6f8622c-f6be-4f9c-b1c5-c248bd3a200b")
+		(property "Reference" "J2"
+			(at 185.3 85.09 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2319,8 +1988,8 @@
 				)
 			)
 		)
-		(property "Value" "MP1584EN_Buck_5V_3A"
-			(at 177.8 91.48 0)
+		(property "Value" "External_5V_Input_from_Buck_Module"
+			(at 185.3 87.59 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2330,7 +1999,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 177.8 93.98 0)
+			(at 185.3 93.98 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2341,7 +2010,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 177.8 93.98 0)
+			(at 185.3 93.98 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2352,7 +2021,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 177.8 93.98 0)
+			(at 185.3 93.98 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2360,101 +2029,17 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(pin "1"
+			(uuid "2b7766b3-5762-4274-9d43-a954628baa39")
 		)
 		(pin "2"
-			(uuid "8ca96d36-41d5-4afe-9490-bba517682dc4")
-		)
-		(pin "3"
-			(uuid "44e8b090-46db-41c4-8dcb-5a60355adc9c")
-		)
-		(pin "4"
-			(uuid "4315f678-ac7d-4127-aac3-8466bdbf8096")
-		)
-		(pin "1"
-			(uuid "89266c07-c7dd-4610-b1f2-4e615534cf86")
+			(uuid "5ca25332-920d-48eb-8999-efb95ff102f1")
 		)
 		(instances
 			(project "LuckFox RAP Shield"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-					(reference "U3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+12V")
-		(at 39.37 86.36 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0c490169-bfc1-4c8f-ba72-c6b862dd6969")
-		(property "Reference" "#PWR01"
-			(at 39.37 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+12V"
-			(at 39.37 81.28 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 39.37 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 39.37 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 39.37 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "b176fe0e-640e-4235-a6bb-6272000a4c3c")
-		)
-		(instances
-			(project "LuckFox RAP Shield"
-				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-					(reference "#PWR01")
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -2774,84 +2359,6 @@
 			(project "LuckFox RAP Shield"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "J1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:-12V")
-		(at 48.26 86.36 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b6a7dd81-114a-4073-a7ca-478c65e9e675")
-		(property "Reference" "#PWR02"
-			(at 48.26 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "-12V"
-			(at 48.26 81.28 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 48.26 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 48.26 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"-12V\""
-			(at 48.26 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "14a77c29-4f14-4279-b5f6-0dc21ec9a594")
-		)
-		(instances
-			(project "LuckFox RAP Shield"
-				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-					(reference "#PWR02")
 					(unit 1)
 				)
 			)
