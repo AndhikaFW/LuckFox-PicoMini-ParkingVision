@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name "Breakout board symbols")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols.kicad_sym")(options "")(descr ""))
-)
