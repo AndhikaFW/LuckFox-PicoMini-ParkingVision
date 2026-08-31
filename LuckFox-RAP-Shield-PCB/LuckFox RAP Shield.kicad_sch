@@ -1566,7 +1566,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.12 26.67) (xy 38.58 26.67)
+			(xy 41.12 26.67) (xy 26.12 26.67)
 		)
 		(stroke
 			(width 0)
@@ -1576,7 +1576,7 @@
 	)
 	(global_label "+5V_RAIL"
 		(shape bidirectional)
-		(at 38.58 26.67 0)
+		(at 26.12 26.67 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1585,7 +1585,7 @@
 		)
 		(uuid "4396b56b-48ce-41aa-b6ca-b509a0538f32")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 38.58 26.67 0)
+			(at 26.12 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1598,7 +1598,7 @@
 	)
 	(wire
 		(pts
-			(xy 197.84 96.52) (xy 200.38 96.52)
+			(xy 197.84 96.52) (xy 212.84 96.52)
 		)
 		(stroke
 			(width 0)
@@ -1608,7 +1608,7 @@
 	)
 	(global_label "+5V_RAIL"
 		(shape bidirectional)
-		(at 200.38 96.52 0)
+		(at 212.84 96.52 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1617,7 +1617,7 @@
 		)
 		(uuid "a0461550-8130-4dff-86a5-40fa0f299328")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 200.38 96.52 0)
+			(at 212.84 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1630,7 +1630,7 @@
 	)
 	(wire
 		(pts
-			(xy 42.39 189.23) (xy 39.85 189.23)
+			(xy 42.39 189.23) (xy 27.39 189.23)
 		)
 		(stroke
 			(width 0)
@@ -1640,7 +1640,7 @@
 	)
 	(global_label "+5V_RAIL"
 		(shape bidirectional)
-		(at 39.85 189.23 0)
+		(at 27.39 189.23 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1649,7 +1649,7 @@
 		)
 		(uuid "958134b6-713b-484a-849f-c48d139c2db5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 39.85 189.23 0)
+			(at 27.39 189.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1662,7 +1662,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.12 29.21) (xy 38.58 29.21)
+			(xy 41.12 29.21) (xy 26.12 29.21)
 		)
 		(stroke
 			(width 0)
@@ -1672,7 +1672,7 @@
 	)
 	(global_label "GND"
 		(shape bidirectional)
-		(at 38.58 29.21 0)
+		(at 26.12 29.21 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1681,7 +1681,7 @@
 		)
 		(uuid "c5064153-e9b7-493f-ab3a-20fe37c029c4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 38.58 29.21 0)
+			(at 26.12 29.21 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1694,7 +1694,7 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 29.21) (xy 78.74 29.21)
+			(xy 76.2 29.21) (xy 91.2 29.21)
 		)
 		(stroke
 			(width 0)
@@ -1704,7 +1704,7 @@
 	)
 	(global_label "GND"
 		(shape bidirectional)
-		(at 78.74 29.21 0)
+		(at 91.2 29.21 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1713,7 +1713,7 @@
 		)
 		(uuid "a0bdd83a-3cc3-4249-8482-13bb163e0865")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 78.74 29.21 0)
+			(at 91.2 29.21 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1726,7 +1726,7 @@
 	)
 	(wire
 		(pts
-			(xy 197.84 91.44) (xy 200.38 91.44)
+			(xy 197.84 91.44) (xy 212.84 91.44)
 		)
 		(stroke
 			(width 0)
@@ -1736,7 +1736,7 @@
 	)
 	(global_label "GND"
 		(shape bidirectional)
-		(at 200.38 91.44 0)
+		(at 212.84 91.44 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1745,7 +1745,7 @@
 		)
 		(uuid "a4001d71-c310-452a-a6e0-5630a02deb94")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 200.38 91.44 0)
+			(at 212.84 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1758,7 +1758,7 @@
 	)
 	(wire
 		(pts
-			(xy 42.39 184.15) (xy 39.85 184.15)
+			(xy 42.39 184.15) (xy 27.39 184.15)
 		)
 		(stroke
 			(width 0)
@@ -1768,7 +1768,7 @@
 	)
 	(global_label "GND"
 		(shape bidirectional)
-		(at 39.85 184.15 0)
+		(at 27.39 184.15 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1777,7 +1777,7 @@
 		)
 		(uuid "1db2cbee-cefe-4193-bab5-fde3a62b1a3e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 39.85 184.15 0)
+			(at 27.39 184.15 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1790,7 +1790,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 171.45) (xy 80.01 171.45)
+			(xy 77.47 171.45) (xy 92.47 171.45)
 		)
 		(stroke
 			(width 0)
@@ -1800,7 +1800,7 @@
 	)
 	(global_label "GND"
 		(shape bidirectional)
-		(at 80.01 171.45 0)
+		(at 92.47 171.45 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1809,7 +1809,7 @@
 		)
 		(uuid "55fb538c-690d-431e-af5b-c66731e24c25")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 80.01 171.45 0)
+			(at 92.47 171.45 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1822,7 +1822,7 @@
 	)
 	(wire
 		(pts
-			(xy 255.07 137.16) (xy 257.61 137.16)
+			(xy 257.61 137.16) (xy 272.61 137.16)
 		)
 		(stroke
 			(width 0)
@@ -1832,7 +1832,7 @@
 	)
 	(global_label "GND"
 		(shape bidirectional)
-		(at 257.61 137.16 0)
+		(at 272.61 137.16 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1841,7 +1841,7 @@
 		)
 		(uuid "4d70010f-8f31-456d-8d51-44774f61e0c5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 257.61 137.16 0)
+			(at 272.61 137.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1854,7 +1854,7 @@
 	)
 	(wire
 		(pts
-			(xy 255.07 139.7) (xy 257.61 139.7)
+			(xy 257.61 139.7) (xy 272.61 139.7)
 		)
 		(stroke
 			(width 0)
@@ -1864,7 +1864,7 @@
 	)
 	(global_label "+3V3_RAIL"
 		(shape bidirectional)
-		(at 257.61 139.7 0)
+		(at 272.61 139.7 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1873,7 +1873,7 @@
 		)
 		(uuid "698eb37b-e342-4795-b923-83c2b8541d78")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 257.61 139.7 0)
+			(at 272.61 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1886,7 +1886,7 @@
 	)
 	(wire
 		(pts
-			(xy 255.07 134.62) (xy 257.61 134.62)
+			(xy 257.61 134.62) (xy 272.61 134.62)
 		)
 		(stroke
 			(width 0)
@@ -1896,7 +1896,7 @@
 	)
 	(global_label "+3V3_RAIL"
 		(shape bidirectional)
-		(at 257.61 134.62 0)
+		(at 272.61 134.62 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1905,7 +1905,7 @@
 		)
 		(uuid "5c6039f0-b2eb-48c0-83d2-8eb12b20afba")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 257.61 134.62 0)
+			(at 272.61 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1918,7 +1918,7 @@
 	)
 	(wire
 		(pts
-			(xy 42.39 186.69) (xy 39.85 186.69)
+			(xy 42.39 186.69) (xy 27.39 186.69)
 		)
 		(stroke
 			(width 0)
@@ -1928,7 +1928,7 @@
 	)
 	(global_label "+3V3_RAIL"
 		(shape bidirectional)
-		(at 39.85 186.69 0)
+		(at 27.39 186.69 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1937,7 +1937,7 @@
 		)
 		(uuid "3a5b6b14-55cb-467c-a984-3b42ef364ea0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 39.85 186.69 0)
+			(at 27.39 186.69 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
