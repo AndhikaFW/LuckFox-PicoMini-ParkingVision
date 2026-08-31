@@ -375,154 +375,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Breakout board symbols:Input_Protection_DCJack_12V"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "J"
-				(at 0 8.89 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "DCJack_5.5x2.1mm+ReversePolarityDiode+PTCfuse3A+TVS"
-				(at 0 11.43 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "Input_Protection_DCJack_12V_0_1"
-				(rectangle
-					(start -17.5 6.35)
-					(end 17.5 -6.35)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "Input_Protection_DCJack_12V_1_1"
-				(pin input line
-					(at -17.5 2.54 180)
-					(length 2.54)
-					(name "DC_IN_V+_12V"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -17.5 -2.54 180)
-					(length 2.54)
-					(name "DC_IN_GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 17.5 2.54 0)
-					(length 2.54)
-					(name "PROTECTED_12V_OUT"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 17.5 -2.54 0)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Breakout board symbols:LuckFox_Pico_Mini_Connector"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1492,16 +1344,6 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 96.52) (xy 68.58 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "15e4e73e-ef48-40fb-9eae-1d183ecde8ee")
-	)
-	(wire
-		(pts
 			(xy 76.2 34.29) (xy 140.97 34.29)
 		)
 		(stroke
@@ -1532,16 +1374,6 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 86.36) (xy 48.26 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "26617d3e-66cf-40c4-bf87-ce22c675d20f")
-	)
-	(wire
-		(pts
 			(xy 223.52 163.83) (xy 223.52 139.7)
 		)
 		(stroke
@@ -1569,16 +1401,6 @@
 			(type default)
 		)
 		(uuid "27dba565-93dd-4ba2-9d7a-d5e128d90a50")
-	)
-	(wire
-		(pts
-			(xy 107.84 91.44) (xy 157.76 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2ab8ab2a-1d6d-4c70-ae7b-d26e8979caa3")
 	)
 	(wire
 		(pts
@@ -1822,16 +1644,6 @@
 	)
 	(wire
 		(pts
-			(xy 107.84 96.52) (xy 157.76 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6b90ded8-fe02-4c22-b6a5-79f59988b3d5")
-	)
-	(wire
-		(pts
 			(xy 127 39.37) (xy 127 139.7)
 		)
 		(stroke
@@ -1962,16 +1774,6 @@
 	)
 	(wire
 		(pts
-			(xy 39.37 91.44) (xy 68.58 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b0ba3618-01d5-46ad-83e9-62ed1f24cea5")
-	)
-	(wire
-		(pts
 			(xy 39.37 86.36) (xy 39.37 91.44)
 		)
 		(stroke
@@ -1999,6 +1801,16 @@
 			(type default)
 		)
 		(uuid "b5fc19db-5f0d-4b7b-a0f3-024c7aa45991")
+	)
+	(wire
+		(pts
+			(xy 39.37 91.44) (xy 157.48 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b7cc4ba6-798c-413f-b935-635d36696996")
 	)
 	(wire
 		(pts
@@ -2119,6 +1931,16 @@
 			(type default)
 		)
 		(uuid "dfb8bb02-d8bb-4f46-9b14-dce31e165f08")
+	)
+	(wire
+		(pts
+			(xy 48.26 96.52) (xy 48.26 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e38c78e2-4016-4c0e-86a1-8aaa4585365d")
 	)
 	(wire
 		(pts
@@ -2279,6 +2101,16 @@
 			(type default)
 		)
 		(uuid "f75e18fc-0dcc-499c-af1a-fb55c4446850")
+	)
+	(wire
+		(pts
+			(xy 48.26 96.52) (xy 157.48 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8e55724-8446-4b0b-adc0-8418c807aeb6")
 	)
 	(wire
 		(pts
@@ -2942,90 +2774,6 @@
 			(project "LuckFox RAP Shield"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "J1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Breakout board symbols:Input_Protection_DCJack_12V")
-		(at 87.8 93.98 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b368a4a0-d2b0-4136-8aa6-a80f57ffd7d5")
-		(property "Reference" "J2"
-			(at 87.8 88.98 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "DCJack_5.5x2.1mm+ReversePolarityDiode+PTCfuse3A+TVS"
-			(at 87.8 91.48 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 87.8 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 87.8 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 87.8 93.98 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "7a8ba536-8fb5-4d39-a2e4-eedf2ed85dbe")
-		)
-		(pin "2"
-			(uuid "6962126e-8ad8-4283-8a88-a1595e4e7a3d")
-		)
-		(pin "3"
-			(uuid "42cdbaad-c4ee-4034-a50d-f47852734d5a")
-		)
-		(pin "4"
-			(uuid "4182084c-83b4-482b-a03b-854effdaded2")
-		)
-		(instances
-			(project "LuckFox RAP Shield"
-				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-					(reference "J2")
 					(unit 1)
 				)
 			)
