@@ -352,16 +352,16 @@
     (on_board yes)
     (property "Reference" "J"
       (id 0)
-      (at 0 13.969999999999999 0)
+      (at 0 17.5 0)
       (effects
         (font
           (size 1.27 1.27)
         )
       )
     )
-    (property "Value" "LuckFox_Pico_Mini_SPI_Link"
+    (property "Value" "LuckFox_Pico_Mini_Connector"
       (id 1)
-      (at 0 16.509999999999998 0)
+      (at 0 20 0)
       (effects
         (font
           (size 1.27 1.27)
@@ -375,7 +375,7 @@
         (font
           (size 1.27 1.27)
         )
-        hide
+      hide
       )
     )
     (property "Datasheet" ""
@@ -385,13 +385,13 @@
         (font
           (size 1.27 1.27)
         )
-        hide
+      hide
       )
     )
     (symbol "LuckFox_Pico_Mini_Connector_0_1"
       (rectangle
-        (start -15.0 11.43)
-        (end 15.0 -11.43)
+        (start -15 15)
+        (end 15 -15)
         (stroke
           (width 0)
           (type default)
@@ -403,168 +403,402 @@
       )
     )
     (symbol "LuckFox_Pico_Mini_Connector_1_1"
-      (pin power_in line
-        (at -15.0 7.62 180)
-        (length 2.54)
-        (name "GND_PIN2"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "1"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+    (pin power_in line
+      (at -15 -12.7 180)
+      (length 2.54)
+      (name "VBUS"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
-      (pin power_in line
-        (at -15.0 5.08 180)
-        (length 2.54)
-        (name "GND_PIN21"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "2"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+      (number "1"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
-      (pin power_in line
-        (at -15.0 2.54 180)
-        (length 2.54)
-        (name "5V_VBUS_PIN_TBD"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "3"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+    )
+    (pin power_in line
+      (at -15 -10.16 180)
+      (length 2.54)
+      (name "GND"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
-      (pin input line
-        (at 15.0 7.62 0)
-        (length 2.54)
-        (name "SPI0_CS0_M0_PIN6"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "4"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+      (number "2"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
-      (pin input line
-        (at 15.0 5.08 0)
-        (length 2.54)
-        (name "SPI0_CLK_M0_PIN7"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "5"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+    )
+    (pin power_out line
+      (at -15 -7.62 180)
+      (length 2.54)
+      (name "3V3_OUT"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
-      (pin input line
-        (at 15.0 2.54 0)
-        (length 2.54)
-        (name "SPI0_MOSI_M0_PIN8"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "6"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+      (number "3"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
-      (pin output line
-        (at 15.0 0 0)
-        (length 2.54)
-        (name "SPI0_MISO_M0_PIN9"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "7"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+    )
+    (pin passive line
+      (at -15 -5.08 180)
+      (length 2.54)
+      (name "GPIO1_B2_d"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
-      (pin output line
-        (at 15.0 -2.54 0)
-        (length 2.54)
-        (name "DATA_READY_PIN10"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "8"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+      (number "4"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
-      (pin input line
-        (at 15.0 -5.08 0)
-        (length 2.54)
-        (name "SLAVE_READY_PIN18_OPT"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
-          )
-        )
-        (number "9"
-          (effects
-            (font
-              (size 1.27 1.27)
-            )
+    )
+    (pin passive line
+      (at -15 -2.54 180)
+      (length 2.54)
+      (name "GPIO1_B3_u"
+        (effects
+          (font
+            (size 1.27 1.27)
           )
         )
       )
+      (number "5"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin output line
+      (at -15 0 180)
+      (length 2.54)
+      (name "GPIO1_C0_d_SPI0_CS0"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "6"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin output line
+      (at -15 2.54 180)
+      (length 2.54)
+      (name "GPIO1_C1_d_SPI0_CLK"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "7"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin output line
+      (at -15 5.08 180)
+      (length 2.54)
+      (name "GPIO1_C2_d_SPI0_MOSI"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "8"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin input line
+      (at -15 7.62 180)
+      (length 2.54)
+      (name "GPIO1_C3_d_SPI0_MISO"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "9"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin output line
+      (at -15 10.16 180)
+      (length 2.54)
+      (name "GPIO1_C4_d_DATA_RDY"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "10"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at -15 12.7 180)
+      (length 2.54)
+      (name "GPIO1_C5_d"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "11"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at 15 12.7 0)
+      (length 2.54)
+      (name "GPIO1_D0_d"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "12"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at 15 10.16 0)
+      (length 2.54)
+      (name "GPIO1_D1_d"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "13"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at 15 7.62 0)
+      (length 2.54)
+      (name "GPIO1_D2_d"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "14"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at 15 5.08 0)
+      (length 2.54)
+      (name "GPIO1_D3_d"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "15"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at 15 2.54 0)
+      (length 2.54)
+      (name "GPIO1_C6_d"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "16"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at 15 0 0)
+      (length 2.54)
+      (name "GPIO1_C7_d"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "17"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin input line
+      (at 15 -2.54 0)
+      (length 2.54)
+      (name "GPIO0_A4_d_SLAVE_RDY"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "18"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at 15 -5.08 0)
+      (length 2.54)
+      (name "GPIO4_C0_z"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "19"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin passive line
+      (at 15 -7.62 0)
+      (length 2.54)
+      (name "GPIO4_C1_z"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "20"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin power_in line
+      (at 15 -10.16 0)
+      (length 2.54)
+      (name "GND"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "21"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
+    (pin power_out line
+      (at 15 -12.7 0)
+      (length 2.54)
+      (name "1V8_OUT"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (number "22"
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+    )
     )
   )
   (symbol "W5500_Ethernet_Module"
