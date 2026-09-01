@@ -1863,7 +1863,7 @@
 			(uuid "75927e5b-e241-4776-8a72-1f1ae7cae96a")
 		)
 		(fp_text user "11"
-			(at -4.7 27.16 0)
+			(at -4.7 26.76 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "399467c5-ebe5-464d-8b18-36d55b62c4db")
