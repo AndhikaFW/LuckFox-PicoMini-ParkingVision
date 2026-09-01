@@ -90,13 +90,13 @@
 	(footprint "footprints:ESP32_Dev_Board_Breakout"
 		(layer "F.Cu")
 		(uuid "9107f769-7475-4894-a2e9-50e2fe0da637")
-		(at 121.33 81.92)
+		(at 121.53 81.98)
 		(descr "Real ESP32-S3-WROOM-1 DevKitC-1 dual-USB-C variant, 44 pins (22/row), 2.54mm pitch, 25.40mm row spacing (1.27mm inset from each edge on a 27.94mm-wide board). Pin labels and this shield's schematic-pin-number mapping are per the board's own silkscreen GPIO numbers -- confirmed against a full pinout diagram. Board length is the pin-to-pin span (53.34mm, 21 gaps x 2.54mm, per direct user measurement) plus 0.85mm margin on each end (half the 1.7mm pad size) so the through-hole pads are physically whole rather than clipped by the board edge -- this is a normal pin-header board, not castellated.")
 		(property "Reference" "B2"
 			(at 2 -1 0)
 			(unlocked yes)
 			(layer "F.SilkS")
-			(uuid "f270c9b9-3fde-45d1-b148-6c4591e345a3")
+			(uuid "431cb42d-8cbe-4b9f-9291-286c47a82f4c")
 			(effects
 				(font
 					(size 1 1)
@@ -108,7 +108,8 @@
 			(at 12.954 51.4632 0)
 			(unlocked yes)
 			(layer "F.Fab")
-			(uuid "13968a81-9953-46d1-ae9b-075afad7a7fd")
+			(hide yes)
+			(uuid "b8a77abd-6dd6-4026-8c90-ab8e2b27ca10")
 			(effects
 				(font
 					(size 1 1)
@@ -120,7 +121,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "ce9b8d7e-26cd-428a-a83a-e048b6abffd6")
+			(uuid "804d3842-4899-4b19-bd5a-fa738052332d")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -131,7 +132,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "20d4781a-534b-4982-a4fc-f63201ec7772")
+			(uuid "992c0f47-32c2-4d1f-8bcb-cbaa99695a51")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1149,8 +1150,9 @@
 		(descr "Through hole straight pin header, 1x08, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x08 2.54mm single row")
 		(property "Reference" "U2"
-			(at 0 -2.38 0)
+			(at -7.5 3.835 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "70b22562-9951-4d20-a33b-c7fef0e2923f")
 			(effects
 				(font
@@ -1162,6 +1164,7 @@
 		(property "Value" "W5500_Ethernet_Module_DNP_on_Relay"
 			(at 0 20.16 0)
 			(layer "F.Fab")
+			(hide yes)
 			(uuid "fd623973-dccf-4faa-a838-d9293127ec68")
 			(effects
 				(font
@@ -1330,17 +1333,6 @@
 			(layer "F.Fab")
 			(uuid "9b7528c8-bda3-4c2d-93ca-4c7a3ee9fc89")
 		)
-		(fp_text user "${REFERENCE}"
-			(at 0 8.89 90)
-			(layer "F.Fab")
-			(uuid "6d588712-0bd6-4b88-904f-591c6bf09ac1")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(pad "1" thru_hole rect
 			(at 0 0)
 			(size 1.7 1.7)
@@ -1449,8 +1441,9 @@
 		(descr "Through hole straight pin header, 1x02, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x02 2.54mm single row")
 		(property "Reference" "J2"
-			(at 0 -2.38 0)
+			(at -7.5 3.835 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "98981bd6-ef4e-4481-9e18-999b0d8d85a3")
 			(effects
 				(font
@@ -1462,6 +1455,7 @@
 		(property "Value" "External_5V_Input_from_Buck_Module"
 			(at 0 4.92 0)
 			(layer "F.Fab")
+			(hide yes)
 			(uuid "4fda09ae-d1e4-4a71-b695-a5df0b3b675c")
 			(effects
 				(font
@@ -1630,17 +1624,6 @@
 			(layer "F.Fab")
 			(uuid "1f1d89f6-1677-42c9-a16a-8e6743764626")
 		)
-		(fp_text user "${REFERENCE}"
-			(at 0 1.27 90)
-			(layer "F.Fab")
-			(uuid "ced70733-af4f-47c1-b5b6-a31f8783f217")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(pad "1" thru_hole rect
 			(at 0 0)
 			(size 1.7 1.7)
@@ -1679,7 +1662,7 @@
 	(footprint "footprints:LuckFox_Pico_Mini"
 		(layer "B.Cu")
 		(uuid "8f00f742-1c31-45da-9390-a3b9569ac036")
-		(at 125 110.06)
+		(at 125 110.14)
 		(descr "Cutout + edge-castellation mount for LuckFox Pico Mini, MIRRORED (component side, incl. camera FPC connector, faces AWAY from the shield -- accessible from outside once assembled) -- module nests underneath the shield through this slot. Board length = the measured pin-to-pin span (25.4mm, 10 gaps x 2.54mm) plus 0.7mm margin on each end (half the 1.4mm pad height) so the top/bottom-row pads aren't clipped by the board edge -- only the left/right edges are meant to be castellated, per the module's own design. U-shaped opening: enclosed on left/right/top, OPEN on the bottom edge (the USB-C end, post-mirror) so the module's USB-C connector can extend past the shield's own board edge. The left/right enclosing walls stop exactly at the last pin row (y=26.1, pin 1/22) rather than extending through the bottom margin zone -- that margin only exists to keep the pad copper whole, not to add extra enclosed material on the open side. The open side only works if this footprint is positioned so that opening actually reaches your board's real outer edge -- it is not automatically merged with your board outline. 22 castellated edge pads lap-solder directly to the pads here -- no header/socket. Pads centered on LuckFox's nominal edge line (2.54mm pitch, 17.78mm row spacing, per LuckFox's official mechanical drawing) so they straddle the routed slot edge on the left/right. Pin-row order is reversed vs the unmirrored version: real pin 11/12 (camera-connector end) are now at the top (y=0.7), real pin 1/22 (USB-C end) now at the bottom (y=26.1). Confirm the margin/pad size against your fab house's minimum slot/annular tolerances before ordering.")
 		(property "Reference" "J1"
 			(at 2 -1.5 0)
@@ -1698,6 +1681,7 @@
 			(at 10.5 29.9 0)
 			(unlocked yes)
 			(layer "B.Fab")
+			(hide yes)
 			(uuid "c8e7ff92-39f1-49a1-905d-efc63891a863")
 			(effects
 				(font
@@ -1786,19 +1770,6 @@
 			(layer "B.Fab")
 			(uuid "75927e5b-e241-4776-8a72-1f1ae7cae96a")
 		)
-		(fp_text user "12"
-			(at -6.345 13.07 0)
-			(unlocked yes)
-			(layer "B.SilkS")
-			(uuid "0dd3db11-291a-4d28-9652-618d0b9af3a9")
-			(effects
-				(font
-					(size 0.8 0.8)
-					(thickness 0.12)
-				)
-				(justify mirror)
-			)
-		)
 		(fp_text user "11"
 			(at -3.2 26.77 0)
 			(unlocked yes)
@@ -1834,19 +1805,6 @@
 				(font
 					(size 0.8 0.8)
 					(thickness 0.12)
-				)
-				(justify mirror)
-			)
-		)
-		(fp_text user "${REFERENCE}"
-			(at 10.5 14.07 0)
-			(unlocked yes)
-			(layer "B.Fab")
-			(uuid "11359517-3d50-4002-a621-326015b3bb7d")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
 				)
 				(justify mirror)
 			)
