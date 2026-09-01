@@ -2,12 +2,13 @@
 
 # J1's pads are intentionally centered on the board edge -- they are
 # edge-castellated (lap-solder) pads for the LuckFox Pico Mini module,
-# not header pins, so half the pad copper is meant to be exposed at the
-# cut edge. The default "copper to edge" clearance rule doesn't know
-# about castellation and flags every one of these pads; this rule
-# overrides clearance to 0 for J1 specifically so DRC reflects the real,
-# intentional design instead of a false positive.
+# not header pins, so half the pad copper (0.9mm, half of the 1.8mm pad
+# width) is meant to extend PAST the cut edge, not just touch it -- the
+# real clearance there is negative. The default "copper to edge"
+# clearance rule doesn't know about castellation and flags every one of
+# these pads; -2mm comfortably covers the overhang so DRC reflects the
+# real, intentional design instead of a false positive.
 (rule "J1 castellated edge pads"
 	(condition "A.Reference == 'J1'")
-	(constraint edge_clearance (min 0mm))
+	(constraint edge_clearance (min -2mm))
 )
