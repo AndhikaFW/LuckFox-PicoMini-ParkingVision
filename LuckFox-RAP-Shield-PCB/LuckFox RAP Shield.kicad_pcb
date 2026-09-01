@@ -440,7 +440,7 @@
 			)
 		)
 		(fp_text user "RST"
-			(at 3.87 10.08 90)
+			(at 3.87 10.08 0)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "21aecf43-f2a0-4b40-9268-77ce523f7eca")
@@ -727,7 +727,7 @@
 				)
 			)
 		)
-		(fp_text user "GPIO41"
+		(fp_text user "41"
 			(at 24.1 20.24 270)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -739,7 +739,7 @@
 				)
 			)
 		)
-		(fp_text user "GPIO40"
+		(fp_text user "40"
 			(at 24.1 22.78 270)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -763,7 +763,7 @@
 				)
 			)
 		)
-		(fp_text user "GPIO48"
+		(fp_text user "48"
 			(at 24.1 43.1 270)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -775,7 +775,7 @@
 				)
 			)
 		)
-		(fp_text user "GPIO47"
+		(fp_text user "47"
 			(at 24.1 45.64 270)
 			(unlocked yes)
 			(layer "F.SilkS")
