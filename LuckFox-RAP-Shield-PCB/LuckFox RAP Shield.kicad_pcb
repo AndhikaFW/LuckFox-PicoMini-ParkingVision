@@ -1207,12 +1207,6 @@
 		(path "/a4282c09-8e50-4197-a303-5cc09251c7a8")
 		(sheetname "/")
 		(sheetfile "LuckFox RAP Shield.kicad_sch")
-		(units
-			(unit
-				(name "A")
-				(pins "1" "2" "3" "4" "5" "6" "7" "8")
-			)
-		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1513,12 +1507,6 @@
 		(path "/a6f8622c-f6be-4f9c-b1c5-c248bd3a200b")
 		(sheetname "/")
 		(sheetfile "LuckFox RAP Shield.kicad_sch")
-		(units
-			(unit
-				(name "A")
-				(pins "1" "2")
-			)
-		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1691,8 +1679,8 @@
 	(footprint "footprints:LuckFox_Pico_Mini"
 		(layer "B.Cu")
 		(uuid "8f00f742-1c31-45da-9390-a3b9569ac036")
-		(at 124.8 96.04)
-		(descr "Cutout + edge-castellation mount for LuckFox Pico Mini, MIRRORED (component side, incl. camera FPC connector, faces AWAY from the shield -- accessible from outside once assembled) -- module nests underneath the shield through this slot. U-shaped opening: enclosed on left/right/top, OPEN on the bottom edge (the USB-C end, post-mirror) so the module's USB-C connector can extend past the shield's own board edge. The open side only works if this footprint is positioned so that opening actually reaches your board's real outer edge -- it is not automatically merged with your board outline. 22 castellated edge pads lap-solder directly to the pads here -- no header/socket. Cutout sized to LuckFox's 21.00x28.14mm outline plus 0.15mm clearance per side; pads centered on LuckFox's nominal edge line (2.54mm pitch, 17.78mm row spacing, per LuckFox's official mechanical drawing) so they straddle the routed slot edge. Pin-row order is reversed vs the unmirrored version: real pin 11/12 (camera-connector end) are now at the top (y=1.37), real pin 1/22 (USB-C end) now at the bottom (y=26.77). Confirm the 0.15mm clearance and pad size against your fab house's minimum slot/annular tolerances before ordering.")
+		(at 125 110.06)
+		(descr "Cutout + edge-castellation mount for LuckFox Pico Mini, MIRRORED (component side, incl. camera FPC connector, faces AWAY from the shield -- accessible from outside once assembled) -- module nests underneath the shield through this slot. Board length = the measured pin-to-pin span (25.4mm, 10 gaps x 2.54mm) plus 0.7mm margin on each end (half the 1.4mm pad height) so the top/bottom-row pads aren't clipped by the board edge -- only the left/right edges are meant to be castellated, per the module's own design. U-shaped opening: enclosed on left/right/top, OPEN on the bottom edge (the USB-C end, post-mirror) so the module's USB-C connector can extend past the shield's own board edge. The left/right enclosing walls stop exactly at the last pin row (y=26.1, pin 1/22) rather than extending through the bottom margin zone -- that margin only exists to keep the pad copper whole, not to add extra enclosed material on the open side. The open side only works if this footprint is positioned so that opening actually reaches your board's real outer edge -- it is not automatically merged with your board outline. 22 castellated edge pads lap-solder directly to the pads here -- no header/socket. Pads centered on LuckFox's nominal edge line (2.54mm pitch, 17.78mm row spacing, per LuckFox's official mechanical drawing) so they straddle the routed slot edge on the left/right. Pin-row order is reversed vs the unmirrored version: real pin 11/12 (camera-connector end) are now at the top (y=0.7), real pin 1/22 (USB-C end) now at the bottom (y=26.1). Confirm the margin/pad size against your fab house's minimum slot/annular tolerances before ordering.")
 		(property "Reference" "J1"
 			(at 2 -1.5 0)
 			(unlocked yes)
@@ -1757,7 +1745,7 @@
 			(uuid "403ac2c7-b462-473e-ae3c-b70581320d53")
 		)
 		(fp_line
-			(start -0.15 28.29)
+			(start -0.15 26.1)
 			(end -0.15 -0.15)
 			(stroke
 				(width 0.1)
@@ -1768,7 +1756,7 @@
 		)
 		(fp_line
 			(start 21.15 -0.15)
-			(end 21.15 28.29)
+			(end 21.15 26.1)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -1778,7 +1766,7 @@
 		)
 		(fp_rect
 			(start -1 -1)
-			(end 22 29.14)
+			(end 22 26.1)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -1789,7 +1777,7 @@
 		)
 		(fp_rect
 			(start 0 0)
-			(end 21 28.14)
+			(end 21 26.1)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -1864,7 +1852,7 @@
 			)
 		)
 		(pad "1" smd rect
-			(at 0 26.77 90)
+			(at 0 26.1 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "+5V_RAIL")
@@ -1873,7 +1861,7 @@
 			(uuid "27b8c6b0-a014-44cd-bc5c-e041cdbb667c")
 		)
 		(pad "2" smd rect
-			(at 0 24.23 90)
+			(at 0 23.56 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "GND")
@@ -1882,7 +1870,7 @@
 			(uuid "bfedf0b9-215c-4d77-a6bc-29e43e903c0b")
 		)
 		(pad "3" smd rect
-			(at 0 21.69 90)
+			(at 0 21.02 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-3V3_OUT-Pad3)")
@@ -1891,7 +1879,7 @@
 			(uuid "216d75ee-493f-460f-873a-4e63679399f8")
 		)
 		(pad "4" smd rect
-			(at 0 19.15 90)
+			(at 0 18.48 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_B2_d-Pad4)")
@@ -1900,7 +1888,7 @@
 			(uuid "47f5b2a1-dd5f-4b16-85b2-e12972bec3ee")
 		)
 		(pad "5" smd rect
-			(at 0 16.61 90)
+			(at 0 15.94 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_B3_u-Pad5)")
@@ -1909,7 +1897,7 @@
 			(uuid "a0024126-4ce1-4bd2-b02e-e5cc3f92c259")
 		)
 		(pad "6" smd rect
-			(at 0 14.07 90)
+			(at 0 13.4 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "Net-(B2-GPIO7_CS_LF)")
@@ -1918,7 +1906,7 @@
 			(uuid "7fb6e890-eb47-4dea-b999-acb2d81119b6")
 		)
 		(pad "7" smd rect
-			(at 0 11.53 90)
+			(at 0 10.86 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "Net-(B2-GPIO6_SCK_LF)")
@@ -1927,7 +1915,7 @@
 			(uuid "1b0673a8-5f74-4f0b-9dc8-7e4f5bdeae59")
 		)
 		(pad "8" smd rect
-			(at 0 8.99 90)
+			(at 0 8.32 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "Net-(B2-GPIO4_MOSI_LF)")
@@ -1936,7 +1924,7 @@
 			(uuid "e65687d0-df8a-4e27-9c08-7eca618e9674")
 		)
 		(pad "9" smd rect
-			(at 0 6.45 90)
+			(at 0 5.78 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "Net-(B2-GPIO5_MISO_LF)")
@@ -1945,7 +1933,7 @@
 			(uuid "0a9fed9d-da30-4786-b965-55555c4903c6")
 		)
 		(pad "10" smd rect
-			(at 0 3.91 90)
+			(at 0 3.24 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_C4_d_DATA_RDY-Pad10)")
@@ -1954,7 +1942,7 @@
 			(uuid "8b8018f5-b6fc-439e-9e47-a15a71e45309")
 		)
 		(pad "11" smd rect
-			(at 0 1.37 90)
+			(at 0 0.7 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_C5_d-Pad11)")
@@ -1963,7 +1951,7 @@
 			(uuid "350de46c-591a-4a8c-a148-80e8da2c5ff9")
 		)
 		(pad "12" smd rect
-			(at 21 1.37 90)
+			(at 21 0.7 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_D0_d-Pad12)")
@@ -1972,7 +1960,7 @@
 			(uuid "0acd0e32-f4a5-4f78-9d48-c74c9b12e04a")
 		)
 		(pad "13" smd rect
-			(at 21 3.91 90)
+			(at 21 3.24 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_D1_d-Pad13)")
@@ -1981,7 +1969,7 @@
 			(uuid "dc9dc3ab-669b-4649-967b-97f8fd9e60f3")
 		)
 		(pad "14" smd rect
-			(at 21 6.45 90)
+			(at 21 5.78 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_D2_d-Pad14)")
@@ -1990,7 +1978,7 @@
 			(uuid "ab1a4d81-52a1-4985-8656-f3d0380663c7")
 		)
 		(pad "15" smd rect
-			(at 21 8.99 90)
+			(at 21 8.32 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_D3_d-Pad15)")
@@ -1999,7 +1987,7 @@
 			(uuid "113feca1-f46d-45e1-be3d-2991a916908a")
 		)
 		(pad "16" smd rect
-			(at 21 11.53 90)
+			(at 21 10.86 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_C6_d-Pad16)")
@@ -2008,7 +1996,7 @@
 			(uuid "819377c0-48e1-4fd9-bee4-efed7cf68d75")
 		)
 		(pad "17" smd rect
-			(at 21 14.07 90)
+			(at 21 13.4 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO1_C7_d-Pad17)")
@@ -2017,7 +2005,7 @@
 			(uuid "ad559abc-7b09-41f2-a223-02bb6882fc0b")
 		)
 		(pad "18" smd rect
-			(at 21 16.61 90)
+			(at 21 15.94 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO0_A4_d_SLAVE_RDY-Pad18)")
@@ -2026,7 +2014,7 @@
 			(uuid "2a2d4de0-29ed-4fd8-9c73-f4377ff2a3e3")
 		)
 		(pad "19" smd rect
-			(at 21 19.15 90)
+			(at 21 18.48 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO4_C0_z-Pad19)")
@@ -2035,7 +2023,7 @@
 			(uuid "fe72408d-caef-4b31-b2ea-700441f15f64")
 		)
 		(pad "20" smd rect
-			(at 21 21.69 90)
+			(at 21 21.02 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GPIO4_C1_z-Pad20)")
@@ -2044,7 +2032,7 @@
 			(uuid "5ce58f2c-23dd-42cf-a3d2-46cfb2f5e8be")
 		)
 		(pad "21" smd rect
-			(at 21 24.23 90)
+			(at 21 23.56 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-GND-Pad21)")
@@ -2053,7 +2041,7 @@
 			(uuid "27fa0d37-776f-4f4b-9d62-f780e9857f3a")
 		)
 		(pad "22" smd rect
-			(at 21 26.77 90)
+			(at 21 26.1 90)
 			(size 1.8 1.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "unconnected-(J1-1V8_OUT-Pad22)")
