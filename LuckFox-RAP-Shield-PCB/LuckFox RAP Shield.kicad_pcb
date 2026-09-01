@@ -91,7 +91,7 @@
 		(layer "F.Cu")
 		(uuid "9107f769-7475-4894-a2e9-50e2fe0da637")
 		(at 121.33 81.92)
-		(descr "Real ESP32-S3-WROOM-1 DevKitC-1 dual-USB-C variant, 44 pins (22/row), 2.54mm pitch, 25.40mm row spacing (1.27mm inset from each edge on a 27.94mm-wide board). Pin labels and this shield's schematic-pin-number mapping are per the board's own silkscreen GPIO numbers -- confirmed against a full pinout diagram. Board length equals the pin-to-pin span exactly (53.34mm, 21 gaps x 2.54mm), zero top/bottom margin, per direct user measurement -- first pin row is flush with the top edge, last pin row flush with the bottom edge.")
+		(descr "Real ESP32-S3-WROOM-1 DevKitC-1 dual-USB-C variant, 44 pins (22/row), 2.54mm pitch, 25.40mm row spacing (1.27mm inset from each edge on a 27.94mm-wide board). Pin labels and this shield's schematic-pin-number mapping are per the board's own silkscreen GPIO numbers -- confirmed against a full pinout diagram. Board length is the pin-to-pin span (53.34mm, 21 gaps x 2.54mm, per direct user measurement) plus 0.85mm margin on each end (half the 1.7mm pad size) so the through-hole pads are physically whole rather than clipped by the board edge -- this is a normal pin-header board, not castellated.")
 		(property "Reference" "B2"
 			(at 2 -1 0)
 			(unlocked yes)
@@ -145,7 +145,7 @@
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_rect
 			(start -0.15 -0.15)
-			(end 28.09 53.49)
+			(end 28.09 55.19)
 			(stroke
 				(width 0.12)
 				(type solid)
@@ -156,7 +156,7 @@
 		)
 		(fp_rect
 			(start -0.4 -0.4)
-			(end 28.34 53.74)
+			(end 28.34 55.44)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -167,7 +167,7 @@
 		)
 		(fp_rect
 			(start 0 0)
-			(end 27.94 53.34)
+			(end 27.94 55.04)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -741,7 +741,7 @@
 			)
 		)
 		(pad "1" thru_hole rect
-			(at 1.27 50.8 90)
+			(at 1.27 51.65 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -752,7 +752,7 @@
 			(uuid "7f6343f2-32b0-4c0f-837b-af0984268398")
 		)
 		(pad "2" thru_hole rect
-			(at 1.27 0 90)
+			(at 1.27 0.85 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -763,7 +763,7 @@
 			(uuid "3288e9ad-338d-4f5d-a783-77c02b1f5e80")
 		)
 		(pad "3" thru_hole rect
-			(at 1.27 53.34 90)
+			(at 1.27 54.19 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -774,7 +774,7 @@
 			(uuid "356ebbc6-660e-42a2-b980-8d188ab676af")
 		)
 		(pad "3V3_B" thru_hole circle
-			(at 1.27 2.54 90)
+			(at 1.27 3.39 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -782,7 +782,7 @@
 			(uuid "acf51d93-1663-4457-b3f9-1a16ed5f5ea6")
 		)
 		(pad "4" thru_hole rect
-			(at 1.27 5.08 90)
+			(at 1.27 5.93 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -793,7 +793,7 @@
 			(uuid "4e38a841-29c5-48d5-a8cd-4886f944da10")
 		)
 		(pad "5" thru_hole rect
-			(at 1.27 7.62 90)
+			(at 1.27 8.47 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -804,7 +804,7 @@
 			(uuid "cb3545b8-98a0-4ecf-89ab-bf3b4f7e6013")
 		)
 		(pad "6" thru_hole rect
-			(at 1.27 10.16 90)
+			(at 1.27 11.01 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -815,7 +815,7 @@
 			(uuid "2a4c1bfd-c992-42b0-a9c9-beeec62a8758")
 		)
 		(pad "7" thru_hole rect
-			(at 1.27 12.7 90)
+			(at 1.27 13.55 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -826,7 +826,7 @@
 			(uuid "96e0f698-608d-4915-aa61-c3a5c81fe9a2")
 		)
 		(pad "8" thru_hole rect
-			(at 1.27 15.24 90)
+			(at 1.27 16.09 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -837,7 +837,7 @@
 			(uuid "167d4750-3cd1-49db-b977-6ff76f5964aa")
 		)
 		(pad "9" thru_hole rect
-			(at 1.27 35.56 90)
+			(at 1.27 36.41 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -848,7 +848,7 @@
 			(uuid "fb1abc47-9220-4b03-94ff-20ff41c0c4fe")
 		)
 		(pad "10" thru_hole rect
-			(at 1.27 38.1 90)
+			(at 1.27 38.95 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -859,7 +859,7 @@
 			(uuid "2157e44d-a7a3-4627-a438-ae421aeb6099")
 		)
 		(pad "11" thru_hole rect
-			(at 1.27 40.64 90)
+			(at 1.27 41.49 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -870,7 +870,7 @@
 			(uuid "c0ad71af-b7cc-4f1a-a34f-57a9f8b35e89")
 		)
 		(pad "12" thru_hole rect
-			(at 1.27 43.18 90)
+			(at 1.27 44.03 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -881,7 +881,7 @@
 			(uuid "e21c1edc-ff6a-40ad-b94a-cdb90039ace0")
 		)
 		(pad "13" thru_hole rect
-			(at 1.27 45.72 90)
+			(at 1.27 46.57 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -892,7 +892,7 @@
 			(uuid "ceafd8a5-d837-410c-b8f3-d0066914947e")
 		)
 		(pad "14" thru_hole rect
-			(at 1.27 17.78 90)
+			(at 1.27 18.63 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -903,7 +903,7 @@
 			(uuid "50494634-d7a2-4e2d-ba9f-7b70ee639642")
 		)
 		(pad "15" thru_hole rect
-			(at 1.27 20.32 90)
+			(at 1.27 21.17 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -914,7 +914,7 @@
 			(uuid "2034a69f-8a0d-458c-ab4a-73a914297a39")
 		)
 		(pad "16" thru_hole rect
-			(at 26.67 0 270)
+			(at 26.67 0.85 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -925,7 +925,7 @@
 			(uuid "e800e30b-2167-4d89-a38e-70d563678f41")
 		)
 		(pad "GND_C" thru_hole circle
-			(at 26.67 50.8 270)
+			(at 26.67 51.65 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -933,7 +933,7 @@
 			(uuid "972d6bd4-6e11-4ba5-aecb-86ab8a74efb5")
 		)
 		(pad "GND_D" thru_hole circle
-			(at 26.67 53.34 270)
+			(at 26.67 54.19 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -941,7 +941,7 @@
 			(uuid "a14b4153-8dba-4544-ba21-02a2e0dab2c5")
 		)
 		(pad "GPIO0" thru_hole circle
-			(at 26.67 33.02 270)
+			(at 26.67 33.87 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -949,7 +949,7 @@
 			(uuid "a8ab09cc-4085-48b6-a18f-1b6df27009d3")
 		)
 		(pad "GPIO1" thru_hole circle
-			(at 26.67 7.62 270)
+			(at 26.67 8.47 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -957,7 +957,7 @@
 			(uuid "6852a3e0-e220-422e-920c-44744c250137")
 		)
 		(pad "GPIO2" thru_hole circle
-			(at 26.67 10.16 270)
+			(at 26.67 11.01 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -965,7 +965,7 @@
 			(uuid "102e71e8-7ed3-468e-99a0-d0f0eadabefc")
 		)
 		(pad "GPIO3" thru_hole circle
-			(at 1.27 30.48 90)
+			(at 1.27 31.33 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -973,7 +973,7 @@
 			(uuid "f0427a76-e824-4cb2-9144-b6aa58947186")
 		)
 		(pad "GPIO8" thru_hole circle
-			(at 1.27 27.94 90)
+			(at 1.27 28.79 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -981,7 +981,7 @@
 			(uuid "a99081d0-ccaf-43aa-8b41-9441e41a96fd")
 		)
 		(pad "GPIO14" thru_hole circle
-			(at 1.27 48.26 90)
+			(at 1.27 49.11 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -989,7 +989,7 @@
 			(uuid "d5824c08-fcd5-4af2-be58-c91e249fb46c")
 		)
 		(pad "GPIO17" thru_hole circle
-			(at 1.27 22.86 90)
+			(at 1.27 23.71 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -997,7 +997,7 @@
 			(uuid "743afa34-d765-4de1-a089-0e4857631e27")
 		)
 		(pad "GPIO18" thru_hole circle
-			(at 1.27 25.4 90)
+			(at 1.27 26.25 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1005,7 +1005,7 @@
 			(uuid "4d27a284-3562-4d1d-8916-7c608f90d94f")
 		)
 		(pad "GPIO19" thru_hole circle
-			(at 26.67 48.26 270)
+			(at 26.67 49.11 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1013,7 +1013,7 @@
 			(uuid "797f2d30-1139-42b9-a617-6a921641c041")
 		)
 		(pad "GPIO20" thru_hole circle
-			(at 26.67 45.72 270)
+			(at 26.67 46.57 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1021,7 +1021,7 @@
 			(uuid "faa0ccaf-1aea-4f94-bbd3-9df3107dd471")
 		)
 		(pad "GPIO21" thru_hole circle
-			(at 26.67 43.18 270)
+			(at 26.67 44.03 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1029,7 +1029,7 @@
 			(uuid "732927f1-a46c-4bf3-8196-71cdc3e201e4")
 		)
 		(pad "GPIO35" thru_hole circle
-			(at 26.67 30.48 270)
+			(at 26.67 31.33 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1037,7 +1037,7 @@
 			(uuid "f01bcbbb-2f19-4650-af26-75a48d47429b")
 		)
 		(pad "GPIO36" thru_hole circle
-			(at 26.67 27.94 270)
+			(at 26.67 28.79 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1045,7 +1045,7 @@
 			(uuid "8252e4a0-cda5-40c8-877d-c6c3ec32bd50")
 		)
 		(pad "GPIO37" thru_hole circle
-			(at 26.67 25.4 270)
+			(at 26.67 26.25 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1053,7 +1053,7 @@
 			(uuid "01a7cd64-98b0-4393-910b-612f3ae4f8ff")
 		)
 		(pad "GPIO38" thru_hole circle
-			(at 26.67 22.86 270)
+			(at 26.67 23.71 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1061,7 +1061,7 @@
 			(uuid "cb001f22-9227-4a90-b6a3-6cf427cc8332")
 		)
 		(pad "GPIO39" thru_hole circle
-			(at 26.67 20.32 270)
+			(at 26.67 21.17 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1069,7 +1069,7 @@
 			(uuid "34539eeb-521f-4508-84c4-3f5fdf762cd6")
 		)
 		(pad "GPIO40" thru_hole circle
-			(at 26.67 17.78 270)
+			(at 26.67 18.63 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1077,7 +1077,7 @@
 			(uuid "cb06d254-6799-4de7-becd-f9266c2a5591")
 		)
 		(pad "GPIO41" thru_hole circle
-			(at 26.67 15.24 270)
+			(at 26.67 16.09 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1085,7 +1085,7 @@
 			(uuid "14a00f87-05dd-4688-83fa-e9a9a2496596")
 		)
 		(pad "GPIO42" thru_hole circle
-			(at 26.67 12.7 270)
+			(at 26.67 13.55 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1093,7 +1093,7 @@
 			(uuid "ff483879-2d36-45b0-9d51-10bace98a2d1")
 		)
 		(pad "GPIO43" thru_hole circle
-			(at 26.67 2.54 270)
+			(at 26.67 3.39 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1101,7 +1101,7 @@
 			(uuid "063703aa-327f-4985-805c-0ac83b776761")
 		)
 		(pad "GPIO44" thru_hole circle
-			(at 26.67 5.08 270)
+			(at 26.67 5.93 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1109,7 +1109,7 @@
 			(uuid "9fb720a3-b4da-49d6-89e0-b913917b886b")
 		)
 		(pad "GPIO45" thru_hole circle
-			(at 26.67 35.56 270)
+			(at 26.67 36.41 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1117,7 +1117,7 @@
 			(uuid "e617a12c-be48-4180-a9f9-44ed8e38c67e")
 		)
 		(pad "GPIO46" thru_hole circle
-			(at 1.27 33.02 90)
+			(at 1.27 33.87 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1125,7 +1125,7 @@
 			(uuid "b5dd9ae8-296c-47ee-aad1-ee2386bed7f6")
 		)
 		(pad "GPIO47" thru_hole circle
-			(at 26.67 40.64 270)
+			(at 26.67 41.49 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1133,7 +1133,7 @@
 			(uuid "776c0d8e-6802-43c4-825f-1c869a36cf43")
 		)
 		(pad "GPIO48" thru_hole circle
-			(at 26.67 38.1 270)
+			(at 26.67 38.95 270)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1691,7 +1691,7 @@
 	(footprint "footprints:LuckFox_Pico_Mini"
 		(layer "B.Cu")
 		(uuid "8f00f742-1c31-45da-9390-a3b9569ac036")
-		(at 124.8 95.37)
+		(at 124.8 96.04)
 		(descr "Cutout + edge-castellation mount for LuckFox Pico Mini, MIRRORED (component side, incl. camera FPC connector, faces AWAY from the shield -- accessible from outside once assembled) -- module nests underneath the shield through this slot. U-shaped opening: enclosed on left/right/top, OPEN on the bottom edge (the USB-C end, post-mirror) so the module's USB-C connector can extend past the shield's own board edge. The open side only works if this footprint is positioned so that opening actually reaches your board's real outer edge -- it is not automatically merged with your board outline. 22 castellated edge pads lap-solder directly to the pads here -- no header/socket. Cutout sized to LuckFox's 21.00x28.14mm outline plus 0.15mm clearance per side; pads centered on LuckFox's nominal edge line (2.54mm pitch, 17.78mm row spacing, per LuckFox's official mechanical drawing) so they straddle the routed slot edge. Pin-row order is reversed vs the unmirrored version: real pin 11/12 (camera-connector end) are now at the top (y=1.37), real pin 1/22 (USB-C end) now at the bottom (y=26.77). Confirm the 0.15mm clearance and pad size against your fab house's minimum slot/annular tolerances before ordering.")
 		(property "Reference" "J1"
 			(at 2 -1.5 0)
