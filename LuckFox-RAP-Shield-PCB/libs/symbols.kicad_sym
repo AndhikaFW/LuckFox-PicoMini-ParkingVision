@@ -44,8 +44,8 @@
     )
     (symbol "ESP32-S3-DevKitC-1_0_1"
       (rectangle
-        (start -15.0 15.0)
-        (end 15.0 -15.0)
+        (start -15.24 15.24)
+        (end 15.24 -15.24)
         (stroke
           (width 0)
           (type default)
@@ -58,7 +58,7 @@
     )
     (symbol "ESP32-S3-DevKitC-1_1_1"
       (pin power_in line
-        (at -15.0 12.7 180)
+        (at -15.24 12.7 180)
         (length 2.54)
         (name "5V"
           (effects
@@ -76,7 +76,7 @@
         )
       )
       (pin power_in line
-        (at -15.0 10.16 180)
+        (at -15.24 10.16 180)
         (length 2.54)
         (name "3V3"
           (effects
@@ -94,7 +94,7 @@
         )
       )
       (pin power_in line
-        (at -15.0 7.62 180)
+        (at -15.24 7.62 180)
         (length 2.54)
         (name "GND"
           (effects
@@ -112,7 +112,7 @@
         )
       )
       (pin input line
-        (at -15.0 5.08 180)
+        (at -15.24 5.08 180)
         (length 2.54)
         (name "EN"
           (effects
@@ -130,7 +130,7 @@
         )
       )
       (pin bidirectional line
-        (at -15.0 0 180)
+        (at -15.24 0 180)
         (length 2.54)
         (name "GPIO4_MOSI_LF"
           (effects
@@ -148,7 +148,7 @@
         )
       )
       (pin bidirectional line
-        (at -15.0 -2.54 180)
+        (at -15.24 -2.54 180)
         (length 2.54)
         (name "GPIO5_MISO_LF"
           (effects
@@ -166,7 +166,7 @@
         )
       )
       (pin bidirectional line
-        (at -15.0 -5.08 180)
+        (at -15.24 -5.08 180)
         (length 2.54)
         (name "GPIO6_SCK_LF"
           (effects
@@ -184,7 +184,7 @@
         )
       )
       (pin bidirectional line
-        (at -15.0 -7.62 180)
+        (at -15.24 -7.62 180)
         (length 2.54)
         (name "GPIO7_CS_LF"
           (effects
@@ -202,7 +202,7 @@
         )
       )
       (pin bidirectional line
-        (at 15.0 12.7 0)
+        (at 15.24 12.7 0)
         (length 2.54)
         (name "GPIO9_INT_ETH"
           (effects
@@ -220,7 +220,7 @@
         )
       )
       (pin bidirectional line
-        (at 15.0 10.16 0)
+        (at 15.24 10.16 0)
         (length 2.54)
         (name "GPIO10_CS_ETH"
           (effects
@@ -238,7 +238,7 @@
         )
       )
       (pin bidirectional line
-        (at 15.0 7.62 0)
+        (at 15.24 7.62 0)
         (length 2.54)
         (name "GPIO11_MOSI_ETH"
           (effects
@@ -256,7 +256,7 @@
         )
       )
       (pin bidirectional line
-        (at 15.0 5.08 0)
+        (at 15.24 5.08 0)
         (length 2.54)
         (name "GPIO12_SCK_ETH"
           (effects
@@ -274,7 +274,7 @@
         )
       )
       (pin bidirectional line
-        (at 15.0 2.54 0)
+        (at 15.24 2.54 0)
         (length 2.54)
         (name "GPIO13_MISO_ETH"
           (effects
@@ -292,7 +292,7 @@
         )
       )
       (pin input line
-        (at 15.0 0 0)
+        (at 15.24 0 0)
         (length 2.54)
         (name "GPIO15_DATA_RDY_IN"
           (effects
@@ -310,7 +310,7 @@
         )
       )
       (pin output line
-        (at 15.0 -2.54 0)
+        (at 15.24 -2.54 0)
         (length 2.54)
         (name "GPIO16_SLAVE_RDY_OUT"
           (effects
@@ -328,7 +328,7 @@
         )
       )
       (pin power_in line
-        (at 15.0 -5.08 0)
+        (at 15.24 -5.08 0)
         (length 2.54)
         (name "GND"
           (effects
@@ -390,8 +390,8 @@
     )
     (symbol "LuckFox_Pico_Mini_Connector_0_1"
       (rectangle
-        (start -15 15)
-        (end 15 -15)
+        (start -15.24 15.24)
+        (end 15.24 -15.24)
         (stroke
           (width 0)
           (type default)
@@ -404,7 +404,7 @@
     )
     (symbol "LuckFox_Pico_Mini_Connector_1_1"
     (pin power_in line
-      (at -15 -12.7 180)
+      (at -15.24 -12.7 180)
       (length 2.54)
       (name "VBUS"
         (effects
@@ -422,7 +422,7 @@
       )
     )
     (pin power_in line
-      (at -15 -10.16 180)
+      (at -15.24 -10.16 180)
       (length 2.54)
       (name "GND"
         (effects
@@ -440,7 +440,7 @@
       )
     )
     (pin power_out line
-      (at -15 -7.62 180)
+      (at -15.24 -7.62 180)
       (length 2.54)
       (name "3V3_OUT"
         (effects
@@ -458,7 +458,7 @@
       )
     )
     (pin passive line
-      (at -15 -5.08 180)
+      (at -15.24 -5.08 180)
       (length 2.54)
       (name "GPIO1_B2_d"
         (effects
@@ -476,7 +476,7 @@
       )
     )
     (pin passive line
-      (at -15 -2.54 180)
+      (at -15.24 -2.54 180)
       (length 2.54)
       (name "GPIO1_B3_u"
         (effects
@@ -494,7 +494,7 @@
       )
     )
     (pin output line
-      (at -15 0 180)
+      (at -15.24 0 180)
       (length 2.54)
       (name "GPIO1_C0_d_SPI0_CS0"
         (effects
@@ -512,7 +512,7 @@
       )
     )
     (pin output line
-      (at -15 2.54 180)
+      (at -15.24 2.54 180)
       (length 2.54)
       (name "GPIO1_C1_d_SPI0_CLK"
         (effects
@@ -530,7 +530,7 @@
       )
     )
     (pin output line
-      (at -15 5.08 180)
+      (at -15.24 5.08 180)
       (length 2.54)
       (name "GPIO1_C2_d_SPI0_MOSI"
         (effects
@@ -548,7 +548,7 @@
       )
     )
     (pin input line
-      (at -15 7.62 180)
+      (at -15.24 7.62 180)
       (length 2.54)
       (name "GPIO1_C3_d_SPI0_MISO"
         (effects
@@ -566,7 +566,7 @@
       )
     )
     (pin output line
-      (at -15 10.16 180)
+      (at -15.24 10.16 180)
       (length 2.54)
       (name "GPIO1_C4_d_DATA_RDY"
         (effects
@@ -584,7 +584,7 @@
       )
     )
     (pin passive line
-      (at -15 12.7 180)
+      (at -15.24 12.7 180)
       (length 2.54)
       (name "GPIO1_C5_d"
         (effects
@@ -602,7 +602,7 @@
       )
     )
     (pin passive line
-      (at 15 12.7 0)
+      (at 15.24 12.7 0)
       (length 2.54)
       (name "GPIO1_D0_d"
         (effects
@@ -620,7 +620,7 @@
       )
     )
     (pin passive line
-      (at 15 10.16 0)
+      (at 15.24 10.16 0)
       (length 2.54)
       (name "GPIO1_D1_d"
         (effects
@@ -638,7 +638,7 @@
       )
     )
     (pin passive line
-      (at 15 7.62 0)
+      (at 15.24 7.62 0)
       (length 2.54)
       (name "GPIO1_D2_d"
         (effects
@@ -656,7 +656,7 @@
       )
     )
     (pin passive line
-      (at 15 5.08 0)
+      (at 15.24 5.08 0)
       (length 2.54)
       (name "GPIO1_D3_d"
         (effects
@@ -674,7 +674,7 @@
       )
     )
     (pin passive line
-      (at 15 2.54 0)
+      (at 15.24 2.54 0)
       (length 2.54)
       (name "GPIO1_C6_d"
         (effects
@@ -692,7 +692,7 @@
       )
     )
     (pin passive line
-      (at 15 0 0)
+      (at 15.24 0 0)
       (length 2.54)
       (name "GPIO1_C7_d"
         (effects
@@ -710,7 +710,7 @@
       )
     )
     (pin input line
-      (at 15 -2.54 0)
+      (at 15.24 -2.54 0)
       (length 2.54)
       (name "GPIO0_A4_d_SLAVE_RDY"
         (effects
@@ -728,7 +728,7 @@
       )
     )
     (pin passive line
-      (at 15 -5.08 0)
+      (at 15.24 -5.08 0)
       (length 2.54)
       (name "GPIO4_C0_z"
         (effects
@@ -746,7 +746,7 @@
       )
     )
     (pin passive line
-      (at 15 -7.62 0)
+      (at 15.24 -7.62 0)
       (length 2.54)
       (name "GPIO4_C1_z"
         (effects
@@ -764,7 +764,7 @@
       )
     )
     (pin power_in line
-      (at 15 -10.16 0)
+      (at 15.24 -10.16 0)
       (length 2.54)
       (name "GND"
         (effects
@@ -782,7 +782,7 @@
       )
     )
     (pin power_out line
-      (at 15 -12.7 0)
+      (at 15.24 -12.7 0)
       (length 2.54)
       (name "1V8_OUT"
         (effects
@@ -844,8 +844,8 @@
     )
     (symbol "W5500_Ethernet_Module_0_1"
       (rectangle
-        (start -12.5 8.89)
-        (end 12.5 -8.89)
+        (start -12.7 8.89)
+        (end 12.7 -8.89)
         (stroke
           (width 0)
           (type default)
@@ -858,7 +858,7 @@
     )
     (symbol "W5500_Ethernet_Module_1_1"
       (pin power_in line
-        (at -12.5 5.08 180)
+        (at -12.7 5.08 180)
         (length 2.54)
         (name "VCC_3V3"
           (effects
@@ -876,7 +876,7 @@
         )
       )
       (pin power_in line
-        (at -12.5 2.54 180)
+        (at -12.7 2.54 180)
         (length 2.54)
         (name "GND"
           (effects
@@ -894,7 +894,7 @@
         )
       )
       (pin input line
-        (at -12.5 0 180)
+        (at -12.7 0 180)
         (length 2.54)
         (name "RST"
           (effects
@@ -912,7 +912,7 @@
         )
       )
       (pin input line
-        (at 12.5 5.08 0)
+        (at 12.7 5.08 0)
         (length 2.54)
         (name "CS"
           (effects
@@ -930,7 +930,7 @@
         )
       )
       (pin input line
-        (at 12.5 2.54 0)
+        (at 12.7 2.54 0)
         (length 2.54)
         (name "SCK"
           (effects
@@ -948,7 +948,7 @@
         )
       )
       (pin input line
-        (at 12.5 0 0)
+        (at 12.7 0 0)
         (length 2.54)
         (name "MOSI"
           (effects
@@ -966,7 +966,7 @@
         )
       )
       (pin output line
-        (at 12.5 -2.54 0)
+        (at 12.7 -2.54 0)
         (length 2.54)
         (name "MISO"
           (effects
@@ -984,7 +984,7 @@
         )
       )
       (pin output line
-        (at 12.5 -5.08 0)
+        (at 12.7 -5.08 0)
         (length 2.54)
         (name "INT"
           (effects
@@ -1046,8 +1046,8 @@
     )
     (symbol "External_5V_Input_from_Buck_Module_0_1"
       (rectangle
-        (start -10 6.35)
-        (end 10 -6.35)
+        (start -10.16 6.35)
+        (end 10.16 -6.35)
         (stroke
           (width 0)
           (type default)
@@ -1060,7 +1060,7 @@
     )
     (symbol "External_5V_Input_from_Buck_Module_1_1"
       (pin input line
-        (at 10 2.54 0)
+        (at 10.16 2.54 0)
         (length 2.54)
         (name "5V_IN"
           (effects
@@ -1078,7 +1078,7 @@
         )
       )
       (pin input line
-        (at 10 -2.54 0)
+        (at 10.16 -2.54 0)
         (length 2.54)
         (name "GND_IN"
           (effects
