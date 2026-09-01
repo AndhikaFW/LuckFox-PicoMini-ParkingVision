@@ -1,1 +1,7 @@
 backend/frames/
+
+# KiCad transient lock files / generated reports
+*.kicad_pro.lck
+*.kicad_sch.lck
+*.kicad_pcb.lck
+LuckFox-RAP-Shield-PCB/ERC.rpt
