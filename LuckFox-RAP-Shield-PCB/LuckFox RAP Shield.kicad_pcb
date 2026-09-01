@@ -128,16 +128,6 @@
 		(uuid "1dbb8d11-32c6-429b-9c95-4ea331dc1b42")
 	)
 	(gr_line
-		(start 146.15 136.24)
-		(end 124.85 136.24)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "Edge.Cuts")
-		(uuid "e1cc0863-16e9-47e4-aed1-46c45337a6d2")
-	)
-	(gr_line
 		(start 124.85 136.24)
 		(end 124.85 140)
 		(stroke
