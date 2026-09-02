@@ -2677,7 +2677,7 @@
 	)
 	(segment
 		(start 124 133.7)
-		(end 124.8 133.7)
+		(end 124.6 133.7)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "GND")
@@ -2685,7 +2685,7 @@
 	)
 	(segment
 		(start 147 133.7)
-		(end 146.2 133.7)
+		(end 146.4 133.7)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "GND")
@@ -2765,7 +2765,7 @@
 	)
 	(segment
 		(start 124.1 118.46)
-		(end 124.8 118.46)
+		(end 124.6 118.46)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO4_MOSI_LF)")
@@ -2805,7 +2805,7 @@
 	)
 	(segment
 		(start 124.1 115.92)
-		(end 124.8 115.92)
+		(end 124.6 115.92)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO5_MISO_LF)")
@@ -2861,7 +2861,7 @@
 	)
 	(segment
 		(start 124.1 121)
-		(end 124.8 121.0)
+		(end 124.6 121.0)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO6_SCK_LF)")
@@ -2893,7 +2893,7 @@
 	)
 	(segment
 		(start 124.1 123.54)
-		(end 124.8 123.54)
+		(end 124.6 123.54)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO7_CS_LF)")
@@ -3069,7 +3069,7 @@
 	)
 	(segment
 		(start 124.1 113.38)
-		(end 124.8 113.38)
+		(end 124.6 113.38)
 		(width 0.25)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO15_DATA_RDY_IN)")
@@ -3157,7 +3157,7 @@
 	)
 	(segment
 		(start 146.5 126.08)
-		(end 146.2 126.08)
+		(end 146.4 126.08)
 		(width 0.25)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO16_SLAVE_RDY_OUT)")
@@ -3205,7 +3205,7 @@
 	)
 	(segment
 		(start 124.1 136.24)
-		(end 124.8 136.24)
+		(end 124.6 136.24)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "+5V_RAIL")
@@ -3218,6 +3218,22 @@
 		(layer "F.Cu")
 		(net "GND")
 		(uuid "07a358f3-80e7-4f98-95d8-7477d82427b2")
+	)
+	(via
+		(at 119.0 99.34)
+		(size 0.6)
+		(drill 0.3)
+		(layers "F.Cu" "B.Cu")
+		(net "GND")
+		(uuid "c5c572b4-7665-456e-b8ad-543b3096ee07")
+	)
+	(via
+		(at 151.0 99.34)
+		(size 0.6)
+		(drill 0.3)
+		(layers "F.Cu" "B.Cu")
+		(net "GND")
+		(uuid "60cada6b-4281-4786-81cc-a8d5f0c2e3de")
 	)
 	(embedded_fonts no)
 )
