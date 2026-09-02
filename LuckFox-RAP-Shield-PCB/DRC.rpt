@@ -1,0 +1,22 @@
+** Drc report for LuckFox RAP Shield.kicad_pcb **
+** Created on 2026-09-02T17:15:22 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 1 DRC violations **
+[lib_footprint_mismatch]: Footprint 'ESP32_Dev_Board_Breakout' does not match copy in library 'footprints'
+    Local override; warning
+    @(121.5300 mm, 81.9800 mm): Footprint B2
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - PTH inside courtyard
+    - NPTH inside courtyard
+
+** End of Report **
