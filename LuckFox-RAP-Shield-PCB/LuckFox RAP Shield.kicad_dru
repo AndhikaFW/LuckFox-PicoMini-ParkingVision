@@ -12,17 +12,3 @@
 	(condition "A.Reference == 'J1'")
 	(constraint edge_clearance (min -2mm))
 )
-
-# B2 is a full-size ESP32-S3 DevKitC breakout board footprint (its
-# silkscreen outline and per-pin GPIO labels are the board's own
-# printed markings, reproduced here for reference) sitting right next
-# to J1's castellated edge and this board's own bottom-right corner.
-# Several of its pin-label texts and its outline rectangle sit closer
-# to Edge.Cuts than the default silk clearance allows -- this is
-# pre-existing layout, not something routing changed, and purely
-# cosmetic (silkscreen ink, no copper). -2mm silences the false
-# positives the same way the J1 rule above does for copper.
-(rule "B2 silkscreen near board edge"
-	(condition "A.Reference == 'B2'")
-	(constraint silk_clearance (min -2mm))
-)
