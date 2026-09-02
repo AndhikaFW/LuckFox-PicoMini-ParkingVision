@@ -385,14 +385,14 @@
 			(uuid "767485d6-5cd5-4b9e-b572-29b5d6af0074")
 		)
 		(fp_text user "9"
-			(at 2.4 39.37 270)
+			(at 2.56 39.37 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "8c210ddf-b14f-4241-bab5-2d5798c1d899")
 			(effects
 				(font
 					(size 0.8 0.8)
-					(thickness 0.15)
+					(thickness 0.08)
 				)
 				(justify right)
 			)
@@ -518,66 +518,66 @@
 			)
 		)
 		(fp_text user "14"
-			(at 2.4 29.18 270)
+			(at 2.56 29.18 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "9f78a198-cbe6-4190-8fd3-741498276aed")
 			(effects
 				(font
 					(size 0.8 0.8)
-					(thickness 0.15)
+					(thickness 0.08)
 				)
 				(justify right)
 			)
 		)
 		(fp_text user "12"
-			(at 2.4 31.72 270)
+			(at 2.56 31.72 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "d0739e9d-b98a-48b0-b6e3-1805b55b1595")
 			(effects
 				(font
 					(size 0.8 0.8)
-					(thickness 0.15)
+					(thickness 0.08)
 				)
 				(justify right)
 			)
 		)
 		(fp_text user "13"
-			(at 2.4 37.43 270)
+			(at 2.56 37.43 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "0edc15aa-c86b-44c3-9355-1a6e732c5b40")
 			(effects
 				(font
 					(size 0.8 0.8)
-					(thickness 0.15)
+					(thickness 0.08)
 				)
 				(justify right)
 			)
 		)
 		(fp_text user "10"
-			(at 2.4 41.91 270)
+			(at 2.56 41.91 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "5ad803a0-0bc4-4305-94f5-7973161fd923")
 			(effects
 				(font
 					(size 0.8 0.8)
-					(thickness 0.15)
+					(thickness 0.08)
 				)
 				(justify right)
 			)
 		)
 		(fp_text user "11"
-			(at 2.4 44.45 270)
+			(at 2.56 44.45 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "eda149d8-fffa-425f-87f2-fef9b90c6d4b")
 			(effects
 				(font
 					(size 0.8 0.8)
-					(thickness 0.15)
+					(thickness 0.08)
 				)
 				(justify right)
 			)
@@ -595,26 +595,26 @@
 			)
 		)
 		(fp_text user "GND"
-			(at 2.4 34.275 270)
+			(at 2.56 34.275 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "62a1dfd0-6476-4291-8542-b755f796b179")
 			(effects
 				(font
 					(size 0.8 0.8)
-					(thickness 0.15)
+					(thickness 0.08)
 				)
 			)
 		)
 		(fp_text user "VIN_5V"
-			(at 2.4 47.37 270)
+			(at 2.56 47.37 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "2ed077e4-167f-43ef-a6e0-f93f6e2fafec")
 			(effects
 				(font
 					(size 0.8 0.8)
-					(thickness 0.15)
+					(thickness 0.08)
 				)
 			)
 		)
