@@ -607,7 +607,7 @@
 			)
 		)
 		(fp_text user "VIN_5V"
-			(at 2.56 47.37 270)
+			(at 2.56 49.82 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "2ed077e4-167f-43ef-a6e0-f93f6e2fafec")
