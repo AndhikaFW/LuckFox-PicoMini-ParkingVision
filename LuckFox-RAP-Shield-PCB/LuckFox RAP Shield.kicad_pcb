@@ -343,9 +343,17 @@
 		(sheetfile "LuckFox RAP Shield.kicad_sch")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_rect
-			(start -0.15 -0.15)
-			(end 28.09 54.02)
+		(fp_poly
+			(pts
+				(xy -0.15 -0.15)
+				(xy 28.09 -0.15)
+				(xy 28.09 55.19)
+				(xy 24.62 55.19)
+				(xy 24.62 54.1)
+				(xy 3.32 54.1)
+				(xy 3.32 55.19)
+				(xy -0.15 55.19)
+			)
 			(stroke
 				(width 0.12)
 				(type solid)
@@ -377,13 +385,13 @@
 			(uuid "767485d6-5cd5-4b9e-b572-29b5d6af0074")
 		)
 		(fp_text user "9"
-			(at 3.22 39.37)
+			(at 2.72 39.37 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "8c210ddf-b14f-4241-bab5-2d5798c1d899")
 			(effects
 				(font
-					(size 0.6 0.6)
+					(size 0.8 0.8)
 					(thickness 0.15)
 				)
 				(justify right)
@@ -510,65 +518,65 @@
 			)
 		)
 		(fp_text user "14"
-			(at 3.22 29.18)
+			(at 2.72 29.18 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "9f78a198-cbe6-4190-8fd3-741498276aed")
 			(effects
 				(font
-					(size 0.6 0.6)
+					(size 0.8 0.8)
 					(thickness 0.15)
 				)
 				(justify right)
 			)
 		)
 		(fp_text user "12"
-			(at 3.22 31.72)
+			(at 2.72 31.72 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "d0739e9d-b98a-48b0-b6e3-1805b55b1595")
 			(effects
 				(font
-					(size 0.6 0.6)
+					(size 0.8 0.8)
 					(thickness 0.15)
 				)
 				(justify right)
 			)
 		)
 		(fp_text user "13"
-			(at 3.22 36.83)
+			(at 2.72 36.83 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "0edc15aa-c86b-44c3-9355-1a6e732c5b40")
 			(effects
 				(font
-					(size 0.6 0.6)
+					(size 0.8 0.8)
 					(thickness 0.15)
 				)
 				(justify right)
 			)
 		)
 		(fp_text user "10"
-			(at 3.22 41.91)
+			(at 2.72 41.91 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "5ad803a0-0bc4-4305-94f5-7973161fd923")
 			(effects
 				(font
-					(size 0.6 0.6)
+					(size 0.8 0.8)
 					(thickness 0.15)
 				)
 				(justify right)
 			)
 		)
 		(fp_text user "11"
-			(at 3.22 44.45)
+			(at 2.72 44.45 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "eda149d8-fffa-425f-87f2-fef9b90c6d4b")
 			(effects
 				(font
-					(size 0.6 0.6)
+					(size 0.8 0.8)
 					(thickness 0.15)
 				)
 				(justify right)
@@ -593,19 +601,19 @@
 			(uuid "62a1dfd0-6476-4291-8542-b755f796b179")
 			(effects
 				(font
-					(size 0.6 0.6)
+					(size 0.8 0.8)
 					(thickness 0.15)
 				)
 			)
 		)
 		(fp_text user "VIN_5V"
-			(at 2.72 46.975 270)
+			(at 2.72 47.37 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "2ed077e4-167f-43ef-a6e0-f93f6e2fafec")
 			(effects
 				(font
-					(size 0.4 0.4)
+					(size 0.8 0.8)
 					(thickness 0.15)
 				)
 			)
@@ -887,37 +895,37 @@
 			)
 		)
 		(fp_text user "GPIO38"
-			(at 23.8 26.685 270)
+			(at 25.22 25.87 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "d6dd7351-d145-4785-a20c-1d9bd347e67d")
 			(effects
 				(font
-					(size 0.5 0.5)
+					(size 0.8 0.8)
 					(thickness 0.12)
 				)
 			)
 		)
 		(fp_text user "48"
-			(at 23.8 43.1 270)
+			(at 25.22 43.1 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "b665ee6f-e179-48d8-8b0c-74b3d833c121")
 			(effects
 				(font
-					(size 0.5 0.5)
+					(size 0.8 0.8)
 					(thickness 0.12)
 				)
 			)
 		)
 		(fp_text user "47"
-			(at 23.8 45.64 270)
+			(at 25.22 45.64 270)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "c52b265a-72df-42f0-a993-dc0f601e827e")
 			(effects
 				(font
-					(size 0.5 0.5)
+					(size 0.8 0.8)
 					(thickness 0.12)
 				)
 			)
