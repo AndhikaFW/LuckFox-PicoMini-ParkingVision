@@ -2088,36 +2088,6 @@
 		(sheetfile "LuckFox RAP Shield.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -0.15 -0.15)
-			(end 21.15 -0.15)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "Edge.Cuts")
-			(uuid "403ac2c7-b462-473e-ae3c-b70581320d53")
-		)
-		(fp_line
-			(start -0.15 26.1)
-			(end -0.15 -0.15)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "Edge.Cuts")
-			(uuid "93e1c9c4-a983-46b6-bf45-00513b847df9")
-		)
-		(fp_line
-			(start 21.15 -0.15)
-			(end 21.15 26.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "Edge.Cuts")
-			(uuid "0b0fa7be-237f-4f7b-a39b-aae1c762c833")
-		)
 		(fp_rect
 			(start -1 -1)
 			(end 22 26.1)
@@ -2707,7 +2677,7 @@
 	)
 	(segment
 		(start 124 133.7)
-		(end 125 133.7)
+		(end 124.8 133.7)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "GND")
@@ -2715,7 +2685,7 @@
 	)
 	(segment
 		(start 147 133.7)
-		(end 146 133.7)
+		(end 146.2 133.7)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "GND")
@@ -2795,7 +2765,7 @@
 	)
 	(segment
 		(start 124.1 118.46)
-		(end 125 118.46)
+		(end 124.8 118.46)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO4_MOSI_LF)")
@@ -2835,7 +2805,7 @@
 	)
 	(segment
 		(start 124.1 115.92)
-		(end 125 115.92)
+		(end 124.8 115.92)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO5_MISO_LF)")
@@ -2891,7 +2861,7 @@
 	)
 	(segment
 		(start 124.1 121)
-		(end 125 121)
+		(end 124.8 121.0)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO6_SCK_LF)")
@@ -2923,7 +2893,7 @@
 	)
 	(segment
 		(start 124.1 123.54)
-		(end 125 123.54)
+		(end 124.8 123.54)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO7_CS_LF)")
@@ -3099,7 +3069,7 @@
 	)
 	(segment
 		(start 124.1 113.38)
-		(end 125 113.38)
+		(end 124.8 113.38)
 		(width 0.25)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO15_DATA_RDY_IN)")
@@ -3187,7 +3157,7 @@
 	)
 	(segment
 		(start 146.5 126.08)
-		(end 146 126.08)
+		(end 146.2 126.08)
 		(width 0.25)
 		(layer "B.Cu")
 		(net "Net-(B2-GPIO16_SLAVE_RDY_OUT)")
@@ -3235,11 +3205,19 @@
 	)
 	(segment
 		(start 124.1 136.24)
-		(end 125.0 136.24)
+		(end 124.8 136.24)
 		(width 0.2)
 		(layer "B.Cu")
 		(net "+5V_RAIL")
 		(uuid "2b446070-0fcb-4a95-a614-7cb2209a2dbb")
+	)
+	(segment
+		(start 116.5 129.8)
+		(end 120.3 129.8)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "GND")
+		(uuid "07a358f3-80e7-4f98-95d8-7477d82427b2")
 	)
 	(embedded_fonts no)
 )
