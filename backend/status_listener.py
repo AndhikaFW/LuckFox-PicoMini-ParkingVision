@@ -2,10 +2,12 @@
 """Minimal RPi4-side demo for the Gateway's status/plate uplink (kBackendPort).
 
 Each reading arrives as its own short-lived connection sending one line
-"node:occupied:plate\\n" (see main/gateway_uplink.cpp flush()). This just
-resolves the node name and logs it -- same node_names.json lookup as
-video_listener.py, so a spot's video and its occupancy/plate reading are
-both identifiable by the same name.
+"node:stream:occupied:plate\\n" (see main/gateway_uplink.cpp flush()) -- one
+line per lane, since each node covers kVideoStreamsPerNode independent
+parking lanes (same split as its video streams). This just resolves the
+node name and logs it -- same node_names.json lookup as video_listener.py,
+so a lane's video (frames/<node>/stream<N>/) and its occupancy/plate
+reading are both identifiable by the same (node, stream) pair.
 """
 
 import socket
@@ -53,12 +55,13 @@ def serve_connection(conn: socket.socket, addr, names: dict[int, str]) -> None:
         line = data.decode(errors="replace").strip()
         if not line:
             return
-        node_id_str, occupied, plate = line.split(":", 2)
+        node_id_str, stream_id_str, occupied, plate = line.split(":", 3)
         node_id = int(node_id_str)
+        stream_id = int(stream_id_str)
         node_name = name_for(node_id, names)
         status = "OCCUPIED" if occupied == "1" else "empty"
         plate_txt = f" plate={plate}" if plate else ""
-        print(f"[status] node={node_id} ({node_name}) {status}{plate_txt}")
+        print(f"[status] node={node_id} ({node_name}) stream={stream_id} {status}{plate_txt}")
     except (ConnectionResetError, ValueError) as exc:
         print(f"[status] bad reading from {addr}: {exc}")
     except TimeoutError:
