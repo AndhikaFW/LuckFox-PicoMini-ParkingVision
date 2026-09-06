@@ -159,7 +159,7 @@
 				(pin bidirectional line
 					(at -15.24 0 180)
 					(length 2.54)
-					(name "GPIO4_MOSI_LF"
+					(name "GPIO4_MOSI_ETH"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -177,7 +177,7 @@
 				(pin bidirectional line
 					(at -15.24 -2.54 180)
 					(length 2.54)
-					(name "GPIO5_MISO_LF"
+					(name "GPIO5_MISO_ETH"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -195,7 +195,7 @@
 				(pin bidirectional line
 					(at -15.24 -5.08 180)
 					(length 2.54)
-					(name "GPIO6_SCK_LF"
+					(name "GPIO6_SCK_ETH"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -213,7 +213,7 @@
 				(pin bidirectional line
 					(at -15.24 -7.62 180)
 					(length 2.54)
-					(name "GPIO7_CS_LF"
+					(name "GPIO7_CS_ETH"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -249,7 +249,7 @@
 				(pin bidirectional line
 					(at 15.24 10.16 0)
 					(length 2.54)
-					(name "GPIO10_CS_ETH"
+					(name "GPIO10_CS_LF"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -267,7 +267,7 @@
 				(pin bidirectional line
 					(at 15.24 7.62 0)
 					(length 2.54)
-					(name "GPIO11_MOSI_ETH"
+					(name "GPIO11_MOSI_LF"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -285,7 +285,7 @@
 				(pin bidirectional line
 					(at 15.24 5.08 0)
 					(length 2.54)
-					(name "GPIO12_SCK_ETH"
+					(name "GPIO12_SCK_LF"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -303,7 +303,7 @@
 				(pin bidirectional line
 					(at 15.24 2.54 0)
 					(length 2.54)
-					(name "GPIO13_MISO_ETH"
+					(name "GPIO13_MISO_LF"
 						(effects
 							(font
 								(size 1.27 1.27)
