@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
 """Runs on LuckFox: read raw NV12 frames (no header, back-to-back -- see
 ../backend/ and the pi4-camera-stream-noencode tool that produces them),
-downsample to the chain's per-stream size, encode, and push each frame to
-this node's paired ESP32-S3 over SPI (Linux spidev, master) as the local
-leg of file -> LuckFox -> SPI -> ESP32 -> RPi4.
+split each frame into kVideoStreamsPerNode vertical strips (one per parking
+lane covered by this node's camera), downsample each strip to the chain's
+per-stream size, encode, and push all of them to this node's paired
+ESP32-S3 over SPI (Linux spidev, master) as the local leg of
+file -> LuckFox -> SPI -> ESP32 -> RPi4.
+
+Splitting: the source frame is SRC_W wide; stream N gets the vertical slice
+[N*STRIP_W, (N+1)*STRIP_W) at full SRC_H, independently downsampled to
+DST_W x DST_H. All 3 streams come from the same captured frame (same
+moment in time, same seq number per frame) -- this used to be a round-robin
+placeholder that gave every stream the *same*, full, undivided frame once
+every 3rd capture (1/3 the real frame rate each); that never actually
+split anything spatially, just multiplexed identical whole frames across
+3 stream_ids.
 
 Counterpart: src/ESP32-S3-RAP/main/luckfox_spi.{h,cpp} (SPI *slave* there --
 Linux spidev is master-only, and the ESP32 side already uses spi_master.h
@@ -37,6 +48,7 @@ FRAME_SIZE = Y_SIZE + Y_SIZE // 2
 
 DST_W, DST_H = 600, 400  # kVideoStreamsPerNode streams, this size each (config.h)
 STREAMS_PER_NODE = 3
+STRIP_W = SRC_W // STREAMS_PER_NODE  # 640px-wide vertical slice per stream
 
 # Must match config.h's kLuckfoxSpiChunkBytes exactly -- both ends assume
 # every SPI transaction is this many bytes.
@@ -49,41 +61,43 @@ MAGIC = 0x52415046  # "RAPF", must match luckfox_spi.cpp's kMagic
 HEADER_FMT = "<BHI"  # after the 4-byte magic, which we pack separately below
 
 
-def downsample_plane(plane, src_w, src_h, dst_w, dst_h, stride=1, elem_offset=0):
-    """Nearest-neighbor downsample, indexing directly into `plane` with an
-    optional element stride/offset (stride=2 lets this read straight out of
-    an interleaved U/V buffer without a separate [0::2]/[1::2] copy first --
-    each of those copies ~0.5MB, real money against this device's ~12MB
-    genuinely-free budget, see project notes)."""
+def downsample_plane(plane, full_w, full_h, crop_x, crop_w, dst_w, dst_h, stride=1, elem_offset=0):
+    """Nearest-neighbor downsample of the [crop_x, crop_x+crop_w) x [0, full_h)
+    region of `plane` (a full_w-wide row buffer) into dst_w x dst_h. Indexes
+    directly into `plane` with an optional element stride/offset (stride=2
+    lets this read straight out of an interleaved U/V buffer without a
+    separate [0::2]/[1::2] copy first -- each of those copies ~0.5MB, real
+    money against this device's ~12MB genuinely-free budget, see project
+    notes). `full_w` (the real row stride) and `crop_w` (the region being
+    downsampled) are separate on purpose -- a crop narrower than the full
+    row still needs the full row's stride to find the next row's start."""
     out = bytearray(dst_w * dst_h)
     for dy in range(dst_h):
-        sy = dy * src_h // dst_h
-        row_off = sy * src_w
+        sy = dy * full_h // dst_h
+        row_off = sy * full_w
         for dx in range(dst_w):
-            sx = dx * src_w // dst_w
+            sx = crop_x + dx * crop_w // dst_w
             out[dy * dst_w + dx] = plane[(row_off + sx) * stride + elem_offset]
     return bytes(out)
 
 
-def nv12_frame_to_png_bytes(f, dst_w=DST_W, dst_h=DST_H):
-    """Memory-frugal NV12(1920x1080) -> PNG(dst_w x dst_h). Reads the Y and
-    UV planes as two separate f.read() calls (never both held at once) and
-    downsamples via direct byte indexing before ever building a PIL Image
-    -- this device has ~33MB total RAM and, per direct measurement, only
-    ~9-12MB genuinely free at any given moment (see project notes: most of
-    the other ~30MB+ turned out to be a boot-time firmware/co-processor
-    reservation invisible to Linux, not something reclaimable from here) --
-    a full-resolution PIL Image or redundant plane copies blow that budget."""
-    y_plane = f.read(Y_SIZE)
-    y_small = downsample_plane(y_plane, SRC_W, SRC_H, dst_w, dst_h)
-    del y_plane
+def nv12_strip_to_png_bytes(y_plane, uv_plane, stream_id, dst_w=DST_W, dst_h=DST_H):
+    """Memory-frugal NV12(1920x1080) strip -> PNG(dst_w x dst_h) for one of
+    STREAMS_PER_NODE vertical slices of the frame (see module docstring).
+    `y_plane`/`uv_plane` are the whole frame's planes, read once per frame
+    and reused across all streams' calls -- only the downsampled output
+    (bytearray, then PIL Image) is duplicated per-stream, not the source
+    planes themselves."""
+    crop_x = stream_id * STRIP_W
+    y_small = downsample_plane(y_plane, SRC_W, SRC_H, crop_x, STRIP_W, dst_w, dst_h)
 
-    uv_plane = f.read(Y_SIZE // 2)
     half_w, half_h = SRC_W // 2, SRC_H // 2
+    half_crop_x, half_strip_w = crop_x // 2, STRIP_W // 2
     dst_half_w, dst_half_h = dst_w // 2, dst_h // 2
-    u_small = downsample_plane(uv_plane, half_w, half_h, dst_half_w, dst_half_h, stride=2, elem_offset=0)
-    v_small = downsample_plane(uv_plane, half_w, half_h, dst_half_w, dst_half_h, stride=2, elem_offset=1)
-    del uv_plane
+    u_small = downsample_plane(uv_plane, half_w, half_h, half_crop_x, half_strip_w,
+                                dst_half_w, dst_half_h, stride=2, elem_offset=0)
+    v_small = downsample_plane(uv_plane, half_w, half_h, half_crop_x, half_strip_w,
+                                dst_half_w, dst_half_h, stride=2, elem_offset=1)
 
     y_img = Image.frombytes("L", (dst_w, dst_h), y_small)
     del y_small
@@ -150,30 +164,33 @@ def main():
     total_frames = os.path.getsize(args.nv12_path) // FRAME_SIZE
 
     sender = SpiFrameSender(args.bus, args.device, args.speed_hz)
-    seq_by_stream = [0, 0, 0]
-    stream = 0
+    seq = 0
     sent = 0
 
     with open(args.nv12_path, "rb") as f:
         while sent < total_frames:
             t0 = time.time()
-            png = nv12_frame_to_png_bytes(f)  # reads Y then UV directly off f
-            gc.collect()  # free the NV12/intermediate buffers before spidev opens
-            png_len = len(png)
-            sender.send_frame(stream, seq_by_stream[stream], png)
-            del png
-            print(f"frame {sent}: stream={stream} seq={seq_by_stream[stream]} "
-                  f"{png_len} bytes, {time.time()-t0:.2f}s", file=sys.stderr)
+            y_plane = f.read(Y_SIZE)
+            uv_plane = f.read(Y_SIZE // 2)
 
-            seq_by_stream[stream] = (seq_by_stream[stream] + 1) & 0xFFFF
-            stream = (stream + 1) % STREAMS_PER_NODE
+            for stream in range(STREAMS_PER_NODE):
+                png = nv12_strip_to_png_bytes(y_plane, uv_plane, stream)
+                gc.collect()  # free the PIL intermediates before spidev opens
+                png_len = len(png)
+                sender.send_frame(stream, seq, png)
+                del png
+                print(f"frame {sent}: stream={stream} seq={seq} "
+                      f"{png_len} bytes, {time.time()-t0:.2f}s", file=sys.stderr)
+
+            del y_plane, uv_plane
+            seq = (seq + 1) & 0xFFFF
             sent += 1
             if args.frames and sent >= args.frames:
                 break
 
             time.sleep(args.interval)
 
-    print(f"done, sent {sent} frames", file=sys.stderr)
+    print(f"done, sent {sent} frames ({sent * STREAMS_PER_NODE} total across {STREAMS_PER_NODE} streams)", file=sys.stderr)
 
 
 if __name__ == "__main__":
