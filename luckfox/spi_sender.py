@@ -40,6 +40,11 @@ Requires SPI0 M0 enabled first (not persistent across reboots by default):
     source /usr/bin/luckfox-config noop
     luckfox_config_init
     luckfox_spi_app 1 0 0 1 1 20000000
+
+Also requires models/yolov5n.rknn (this repo) pushed to RKNN_MODEL_PATH
+below (default /root/yolov5n.rknn) for the RKNN car-detection step -- see
+that constant and check_car_present()'s docstring for what it's for and
+its current known-broken state on-device.
 """
 import argparse
 import gc
@@ -106,8 +111,8 @@ def downsample_plane(plane, full_w, full_h, crop_x, crop_w, crop_y, crop_h, dst_
     return bytes(out)
 
 
-def _ycbcr_region_to_png_bytes(y_plane, uv_plane, crop_x, crop_w, crop_y, crop_h, dst_w, dst_h):
-    """Shared downsample+encode core: NV12 region -> PNG(dst_w x dst_h)."""
+def _ycbcr_region_to_rgb(y_plane, uv_plane, crop_x, crop_w, crop_y, crop_h, dst_w, dst_h):
+    """Shared downsample core: NV12 region -> (PIL RGB Image, y_small)."""
     y_small = downsample_plane(y_plane, SRC_W, SRC_H, crop_x, crop_w, crop_y, crop_h, dst_w, dst_h)
 
     half_w, half_h = SRC_W // 2, SRC_H // 2
@@ -127,9 +132,16 @@ def _ycbcr_region_to_png_bytes(y_plane, uv_plane, crop_x, crop_w, crop_y, crop_h
 
     rgb = Image.merge("YCbCr", (y_img, u_img, v_img)).convert("RGB")
     del y_img, u_img, v_img
+    return rgb, y_small
+
+
+def _ycbcr_region_to_png_bytes(y_plane, uv_plane, crop_x, crop_w, crop_y, crop_h, dst_w, dst_h):
+    """Shared downsample+encode core: NV12 region -> PNG(dst_w x dst_h)."""
+    rgb, y_small = _ycbcr_region_to_rgb(y_plane, uv_plane, crop_x, crop_w, crop_y, crop_h, dst_w, dst_h)
     import io
     buf = io.BytesIO()
     rgb.save(buf, "PNG")
+    del rgb
     return buf.getvalue(), y_small
 
 
@@ -157,6 +169,116 @@ def crop_plate_png_bytes(y_plane, uv_plane, stream_id, crop_box):
     png, _ = _ycbcr_region_to_png_bytes(y_plane, uv_plane, strip_x + x0, x1 - x0, y0, y1 - y0,
                                          x1 - x0, y1 - y0)
     return png
+
+
+# -- RKNN (NPU) car detection for the occupancy check --
+#
+# yolov5n.rknn: COCO-pretrained YOLOv5n (rknn_model_zoo/examples/yolov5),
+# quantized (i8) for the RV1103 NPU. Input: 640x640 RGB, uint8, NHWC, no
+# normalization (quantization is baked into the model, see rknn_model_zoo's
+# yolov5.py demo -- the rknn platform branch feeds raw uint8 pixels
+# directly). Output: 3 tensors (80x80/40x40/20x20 grids, one per detection
+# scale), each 255 channels = 3 anchors x 85 (4 box + 1 objectness + 80
+# class scores), already sigmoid-activated inside the model graph.
+#
+# This only needs a yes/no "is there a car" signal for the occupancy check
+# (not a bounding box to draw), so it skips the reference demo's anchor
+# decoding and NMS entirely -- objectness and the "car" class score are
+# plain per-grid-cell values, independent of anchor box width/height, so
+# just scanning those two channels (of the 85 per anchor) for their max
+# product is enough. See rknn_model_zoo/examples/yolov5/python/yolov5.py
+# for the full reference post-processing this is deliberately not doing.
+RKNN_MODEL_PATH = "/root/yolov5n.rknn"
+RKNN_INPUT_SIZE = 640
+CAR_CLASS_INDEX = 2  # 0-indexed into COCO's 80 classes -- see coco_80_labels_list.txt
+CHANNELS_PER_ANCHOR = 85  # 4 box + 1 objectness + 80 classes
+N_ANCHORS_PER_SCALE = 3
+CAR_CONF_THRESH = 0.25  # matches rknn_model_zoo yolov5 demo's OBJ_THRESH
+
+_rknn_model = None  # lazily loaded -- see check_car_present()
+
+
+def strip_to_rknn_input_bytes(y_plane, uv_plane, stream_id):
+    """Letterboxed RKNN_INPUT_SIZE x RKNN_INPUT_SIZE RGB, raw HWC uint8
+    bytes -- yolov5n.rknn's expected input. Downsamples straight from the
+    source planes to the letterboxed inner size in one pass (cheaper than a
+    full-res crop followed by a second resize), then pads to a square
+    canvas -- same black-pad letterbox the model was converted/calibrated
+    against (see rknn_model_zoo's yolov5.py: `pad_color=(0,0,0)`)."""
+    scale = min(RKNN_INPUT_SIZE / STRIP_W, RKNN_INPUT_SIZE / SRC_H)
+    inner_w = round(STRIP_W * scale)
+    inner_h = round(SRC_H * scale)
+    strip_x = stream_id * STRIP_W
+
+    rgb, _ = _ycbcr_region_to_rgb(y_plane, uv_plane, strip_x, STRIP_W, 0, SRC_H, inner_w, inner_h)
+    canvas = Image.new("RGB", (RKNN_INPUT_SIZE, RKNN_INPUT_SIZE), (0, 0, 0))
+    canvas.paste(rgb, ((RKNN_INPUT_SIZE - inner_w) // 2, (RKNN_INPUT_SIZE - inner_h) // 2))
+    del rgb
+    return canvas.tobytes()
+
+
+def _max_car_confidence(output, grid_h, grid_w):
+    """Max over all grid cells/anchors of objectness * P(car) for one
+    output tensor (an array('f', ...) of length 3*85*grid_h*grid_w in NCHW
+    order, per rknn_ctypes.RknnModel.run()). Only touches the 2 of 85
+    channels per anchor that matter (objectness, car class) -- see module
+    comment above for why box/other-class channels are skipped entirely."""
+    n = grid_h * grid_w
+    car_channel = 5 + CAR_CLASS_INDEX
+    best = 0.0
+    for anchor in range(N_ANCHORS_PER_SCALE):
+        obj_base = (anchor * CHANNELS_PER_ANCHOR + 4) * n
+        car_base = (anchor * CHANNELS_PER_ANCHOR + car_channel) * n
+        obj_slice = output[obj_base:obj_base + n]
+        car_slice = output[car_base:car_base + n]
+        for obj, car in zip(obj_slice, car_slice):
+            conf = obj * car
+            if conf > best:
+                best = conf
+    return best
+
+
+def check_car_present(y_plane, uv_plane, stream_id):
+    """The real "AI car detection" step -- runs yolov5n.rknn on the NPU for
+    one lane's current frame and returns whether a car is present anywhere
+    in it. Meant to be called (lazily, via a closure) from
+    parking_detector.LaneDetector.process()'s check_occupied_fn, so this
+    NPU inference only ever runs once a lane's settle wait has elapsed, not
+    every captured frame.
+
+    KNOWN ISSUE (unresolved): rknn_inputs_set() currently fails on this
+    board with RKNN_ERR_PARAM_INVALID (-5, logged by the runtime as
+    "context config invalid") on every input, regardless of: buffer
+    construction method (create_string_buffer vs a plain c_uint8 array,
+    both address-verified correct), pass_through mode, init flag
+    (0/1/2/4, all identical), or rknn-toolkit2/on-device-runtime version
+    match (re-verified by installing toolkit 1.6.0 to exactly match this
+    board's librknnmrt.so api version 1.6.0/driver 0.9.2, then
+    reconverting the model with it -- same failure). rknn_init() and
+    rknn_query() (IN_OUT_NUM, INPUT_ATTR, OUTPUT_ATTR, SDK_VERSION) all
+    succeed and return correct model metadata, so this is specific to
+    actually submitting a job, not model loading. Kernel dmesg shows
+    `RKNPU ff660000.npu: dev_pm_opp_set_regulators: no regulator (rknpu)
+    found: -19` at boot, which may or may not be the real cause -- not
+    confirmed, would need kernel/device-tree-level investigation beyond
+    this file's scope. check_occupied() in main() below catches whatever
+    this raises and falls back to the lane's last known status, so the
+    rest of the pipeline (video, motion gate, plate cropping once this is
+    fixed) keeps working either way."""
+    global _rknn_model
+    if _rknn_model is None:
+        from rknn_ctypes import RknnModel
+        _rknn_model = RknnModel(RKNN_MODEL_PATH)
+
+    input_bytes = strip_to_rknn_input_bytes(y_plane, uv_plane, stream_id)
+    outputs = _rknn_model.run(input_bytes)
+
+    for i, output in enumerate(outputs):
+        grid_h = _rknn_model.output_attrs[i].dims[2]
+        grid_w = _rknn_model.output_attrs[i].dims[3]
+        if _max_car_confidence(output, grid_h, grid_w) >= CAR_CONF_THRESH:
+            return True
+    return False
 
 
 class SpiFrameSender:
@@ -249,7 +371,19 @@ def main():
                 print(f"frame {sent}: stream={stream} seq={seq} "
                       f"{png_len} bytes, {time.time()-t0:.2f}s", file=sys.stderr)
 
-                reading = detectors[stream].process(y_small, now)
+                def check_occupied(s=stream):
+                    try:
+                        return check_car_present(y_plane, uv_plane, s)
+                    except Exception as exc:  # noqa: BLE001 -- NPU/driver errors are unpredictable
+                        # Keep the lane's last known status rather than
+                        # crashing the whole pipeline over it -- an NPU
+                        # hiccup on one lane's one settle check shouldn't
+                        # take down video/other lanes' detection too.
+                        print(f"  lane {s}: RKNN check_car_present failed ({exc}), "
+                              f"keeping previous status", file=sys.stderr)
+                        return detectors[s].occupied
+
+                reading = detectors[stream].process(y_small, now, check_occupied_fn=check_occupied)
                 del y_small
                 if reading.status_changed:
                     sender.send_status(stream, status_seq[stream], reading.occupied)

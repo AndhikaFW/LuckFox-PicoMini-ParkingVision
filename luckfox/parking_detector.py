@@ -8,21 +8,39 @@ near-zero cost until something actually happens in frame.
             -> occupancy (vacant/occupied)
                 -> if occupied: crop + hand off for plate reading
 
-No numpy/OpenCV/ML runtime exists on this LuckFox image (checked directly:
-no cv2, no numpy, no pip to add either -- see project notes), so "car
-detection" here is a background-subtraction heuristic (mean absolute pixel
-difference against a learned empty-lot reference), not a real object
-detector. It reuses the exact 600x400 grayscale snapshot spi_sender.py
-already downsamples for the video stream -- no extra decode/resize cost,
-just a cheap byte-diff over data that's computed anyway.
+Motion detection stays a cheap background-subtraction heuristic (mean
+absolute pixel difference on the same 600x400 grayscale snapshot
+spi_sender.py already downsamples for the video stream -- no extra decode
+cost) -- it's just a coarse "did anything move" gate, not the actual car
+detection, so a real model would be wasted effort here.
 
-Plate OCR cannot run here either (same reason: no OCR engine, no way to
-install one on this image). This only crops the plate-ish region and hands
-the crop back to the caller to send onward -- see spi_sender.py, which
-forwards it to the ESP32/backend over the video path (a reserved stream_id
-above the real video lanes, kPlateStreamBase+lane -- see config.h). Actual
-text recognition happens on the backend, which is a real Linux box that can
-run tesseract; StatusPacket's plate field stays "" until that lands.
+The occupancy check itself (once a lane settles) is *meant* to be real
+object detection, not a heuristic: RV1103 has an NPU (see
+luckfox/rknn_ctypes.py, a ctypes binding to the on-device librknnmrt.so --
+no rknnlite Python API or package manager exists on this image to install
+one) running a COCO-pretrained YOLOv5n (rknn_model_zoo), checked for its
+"car" class. That inference path is wired up end-to-end (model converted,
+loads on-device, metadata queries all succeed) but currently fails at the
+actual inference call with an unresolved runtime/driver-level error --
+see the KNOWN ISSUE note on check_car_present() in spi_sender.py.
+check_occupied() there catches that failure and falls back to this lane's
+last known status (not the heuristic below -- that fallback is a separate,
+simpler safety net for testing this module in isolation, see next
+paragraph), so the pipeline runs without crashing either way, just without
+real classification until the NPU issue is fixed.
+
+LaneDetector doesn't import PIL/rknn directly -- the caller (spi_sender.py)
+injects a `check_occupied_fn` callback so this module stays free of those
+dependencies and is still testable with a plain heuristic (the
+mean_abs_diff fallback below) if no callback is given at all.
+
+Plate OCR cannot run on-device either (no OCR engine, no way to install
+one). This only crops the plate-ish region and hands the crop back to the
+caller to send onward -- see spi_sender.py, which forwards it to the
+ESP32/backend over the video path (a reserved stream_id above the real
+video lanes, kPlateStreamBase+lane -- see config.h). Actual text
+recognition happens on the backend, which is a real Linux box that can run
+tesseract; StatusPacket's plate field stays "" until that lands.
 """
 import time
 
@@ -100,7 +118,15 @@ class LaneDetector:
             int(self.strip_h * y0f), int(self.strip_h * y1f),
         )
 
-    def process(self, y_small: bytes, now: float = None) -> LaneReading:
+    def process(self, y_small: bytes, now: float = None, check_occupied_fn=None) -> LaneReading:
+        """`check_occupied_fn`, if given, is called with no arguments -- and
+        only right when the settle wait elapses, never on every frame -- to
+        decide occupancy; it should return a bool. Expected to be a closure
+        over this exact call's frame data (see spi_sender.py's real RKNN
+        check), so the (comparatively expensive) crop+resize+NPU-inference
+        it does only ever happens when this state machine actually needs an
+        answer. Falls back to the mean_abs_diff heuristic against
+        empty_reference if omitted (e.g. for testing this module alone)."""
         if now is None:
             now = time.time()
 
@@ -129,8 +155,11 @@ class LaneDetector:
 
         # -- Parked-car / occupancy check: only runs once, after the settle
         # wait elapses, not every frame (see module docstring). --
-        diff = mean_abs_diff(y_small, self.empty_reference)
-        newly_occupied = diff > OCCUPANCY_THRESHOLD
+        if check_occupied_fn is not None:
+            newly_occupied = check_occupied_fn()
+        else:
+            diff = mean_abs_diff(y_small, self.empty_reference)
+            newly_occupied = diff > OCCUPANCY_THRESHOLD
         was_occupied = self.occupied
         self.occupied = newly_occupied
         self.state = "idle"
