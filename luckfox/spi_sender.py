@@ -217,12 +217,16 @@ def strip_to_rknn_input_bytes(y_plane, uv_plane, stream_id):
     return canvas.tobytes()
 
 
-def _max_car_confidence(output, grid_h, grid_w):
+def _max_car_confidence(output, grid_h, grid_w, scale, zp):
     """Max over all grid cells/anchors of objectness * P(car) for one
-    output tensor (an array('f', ...) of length 3*85*grid_h*grid_w in NCHW
-    order, per rknn_ctypes.RknnModel.run()). Only touches the 2 of 85
-    channels per anchor that matter (objectness, car class) -- see module
-    comment above for why box/other-class channels are skipped entirely."""
+    output tensor (an array('b', ...) of length 3*85*grid_h*grid_w in NCHW
+    order, native int8 -- see rknn_ctypes.RknnModel.run()). Only touches
+    the 2 of 85 channels per anchor that matter (objectness, car class) --
+    see module comment above for why box/other-class channels are skipped
+    entirely -- and only dequantizes (raw int8 -> float via this tensor's
+    own scale/zp) those same ~50k elements instead of the ~600k the whole
+    tensor holds, on top of not asking the runtime to do it for the whole
+    thing in the first place (see RknnModel.run())."""
     n = grid_h * grid_w
     car_channel = 5 + CAR_CLASS_INDEX
     best = 0.0
@@ -231,7 +235,9 @@ def _max_car_confidence(output, grid_h, grid_w):
         car_base = (anchor * CHANNELS_PER_ANCHOR + car_channel) * n
         obj_slice = output[obj_base:obj_base + n]
         car_slice = output[car_base:car_base + n]
-        for obj, car in zip(obj_slice, car_slice):
+        for obj_raw, car_raw in zip(obj_slice, car_slice):
+            obj = (obj_raw - zp) * scale
+            car = (car_raw - zp) * scale
             conf = obj * car
             if conf > best:
                 best = conf
@@ -274,9 +280,9 @@ def check_car_present(y_plane, uv_plane, stream_id):
     outputs = _rknn_model.run(input_bytes)
 
     for i, output in enumerate(outputs):
-        grid_h = _rknn_model.output_attrs[i].dims[2]
-        grid_w = _rknn_model.output_attrs[i].dims[3]
-        if _max_car_confidence(output, grid_h, grid_w) >= CAR_CONF_THRESH:
+        attr = _rknn_model.output_attrs[i]
+        grid_h, grid_w = attr.dims[2], attr.dims[3]
+        if _max_car_confidence(output, grid_h, grid_w, attr.scale, attr.zp) >= CAR_CONF_THRESH:
             return True
     return False
 

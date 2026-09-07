@@ -157,9 +157,17 @@ class RknnModel:
     def run(self, input_bytes: bytes):
         """Runs one inference pass with a single NHWC uint8 input (this
         binding only supports the single-input case, all this project
-        needs). Returns a list of array('f', ...) -- one per output tensor,
-        already dequantized to float by the runtime itself (want_float=1),
-        so callers never need this model's per-tensor scale/zero_point."""
+        needs). Returns a list of array('b', ...) -- one per output tensor,
+        in this model's *native* quantized int8, not dequantized to float
+        (want_float=0). Dequantizing here (want_float=1) would ask the
+        runtime to hand back 4 bytes/element instead of 1 -- for
+        yolov5n.rknn's 3 output tensors that's needlessly holding ~8.6MB of
+        floats on a device with ~18MB free total, when a caller like
+        spi_sender.py's car-presence check only ever needs a couple of the
+        85 channels per anchor anyway. Callers that need real values
+        dequantize themselves with this tensor's own scale/zp (see
+        output_attrs[i].scale/.zp), ideally only for the slice they
+        actually read."""
         inp = RknnInput()
         inp.index = 0
         buf = C.create_string_buffer(input_bytes, len(input_bytes))
@@ -174,7 +182,7 @@ class RknnModel:
 
         outputs = (RknnOutput * self.n_outputs)()
         for i in range(self.n_outputs):
-            outputs[i].want_float = 1
+            outputs[i].want_float = 0
             outputs[i].is_prealloc = 0
             outputs[i].index = i
         _check(_lib.rknn_outputs_get(self._ctx, self.n_outputs, outputs, None), "rknn_outputs_get")
@@ -182,9 +190,9 @@ class RknnModel:
         import array
         results = []
         for i in range(self.n_outputs):
-            n_floats = outputs[i].size // 4
-            float_ptr = C.cast(outputs[i].buf, C.POINTER(C.c_float * n_floats))
-            results.append(array.array("f", float_ptr.contents))  # copies out of the buf before release
+            n = outputs[i].size  # 1 byte/element, native int8
+            byte_ptr = C.cast(outputs[i].buf, C.POINTER(C.c_int8 * n))
+            results.append(array.array("b", byte_ptr.contents))  # copies out of the buf before release
 
         _lib.rknn_outputs_release(self._ctx, self.n_outputs, outputs)
         return results
