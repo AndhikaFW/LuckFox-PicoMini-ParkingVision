@@ -43,8 +43,7 @@ Requires SPI0 M0 enabled first (not persistent across reboots by default):
 
 Also requires models/yolov5n.rknn (this repo) pushed to RKNN_MODEL_PATH
 below (default /root/yolov5n.rknn) for the RKNN car-detection step -- see
-that constant and check_car_present()'s docstring for what it's for and
-its current known-broken state on-device.
+that constant and detect_car()'s docstring for what it's for.
 """
 import argparse
 import gc
@@ -181,13 +180,17 @@ def crop_plate_png_bytes(y_plane, uv_plane, stream_id, crop_box):
 # scale), each 255 channels = 3 anchors x 85 (4 box + 1 objectness + 80
 # class scores), already sigmoid-activated inside the model graph.
 #
-# This only needs a yes/no "is there a car" signal for the occupancy check
-# (not a bounding box to draw), so it skips the reference demo's anchor
-# decoding and NMS entirely -- objectness and the "car" class score are
-# plain per-grid-cell values, independent of anchor box width/height, so
-# just scanning those two channels (of the 85 per anchor) for their max
-# product is enough. See rknn_model_zoo/examples/yolov5/python/yolov5.py
-# for the full reference post-processing this is deliberately not doing.
+# The occupancy check itself only needs a yes/no "is there a car" signal,
+# so it skips the reference demo's full NMS (no need to resolve multiple
+# overlapping boxes into one -- max confidence anywhere is enough). It does
+# decode the *single* winning cell's box (see _decode_box()) once a car is
+# found, to crop the actual detected car instead of a fixed guessed region
+# (see PLATE_CROP_FRAC's history in parking_detector.py -- a fixed fraction
+# of the whole lane has no idea where the car actually is in frame). Still
+# skips decoding box coordinates for every other cell -- those never do
+# anything but lose an NMS comparison, see rknn_model_zoo/examples/yolov5/
+# python/yolov5.py for the full reference post-processing this only
+# partially replicates.
 RKNN_MODEL_PATH = "/root/yolov5n.rknn"
 RKNN_INPUT_SIZE = 640
 CAR_CLASS_INDEX = 2  # 0-indexed into COCO's 80 classes -- see coco_80_labels_list.txt
@@ -195,7 +198,24 @@ CHANNELS_PER_ANCHOR = 85  # 4 box + 1 objectness + 80 classes
 N_ANCHORS_PER_SCALE = 3
 CAR_CONF_THRESH = 0.25  # matches rknn_model_zoo yolov5 demo's OBJ_THRESH
 
-_rknn_model = None  # lazily loaded -- see check_car_present()
+# anchors_yolov5.txt (rknn_model_zoo/examples/yolov5/model/) reshaped
+# (3 scales, 3 anchors, 2 (w,h)) -- ANCHORS[scale_idx][anchor_idx] = (w, h),
+# in 640x640 model-input pixel units. Needed only for decoding the single
+# winning detection's box (see module comment above), not for the
+# occupancy yes/no check itself.
+ANCHORS = [
+    [(10, 13), (16, 30), (33, 23)],
+    [(30, 61), (62, 45), (59, 119)],
+    [(116, 90), (156, 198), (373, 326)],
+]
+
+# Once a car's actual box is known, crop this fraction of its *height*
+# (from the bottom) rather than the whole car -- plates sit low on a car,
+# so narrowing further within a real detection is still strictly more
+# grounded than the old fixed-fraction-of-the-whole-lane guess.
+PLATE_WITHIN_CAR_BOTTOM_FRAC = 0.55
+
+_rknn_model = None  # lazily loaded -- see detect_car()
 
 
 def strip_to_rknn_input_bytes(y_plane, uv_plane, stream_id):
@@ -217,17 +237,17 @@ def strip_to_rknn_input_bytes(y_plane, uv_plane, stream_id):
     return canvas.tobytes()
 
 
-def _max_car_confidence(output, c1, grid_h, grid_w, c2, scale, zp):
+def _find_best_car(output, c1, grid_h, grid_w, c2, scale, zp):
     """Max over all grid cells/anchors of objectness * P(car) for one
     output tensor (an array('b', ...) native int8, NC1HWC2-tiled layout --
     dims [1, c1, grid_h, grid_w, c2], see rknn_ctypes.py's module docstring
     for why it's this and not plain NCHW). Only touches the 2 of 85
     channels per anchor that matter (objectness, car class) -- see module
-    comment above for why box/other-class channels are skipped entirely --
-    and only dequantizes (raw int8 -> float via this tensor's own
-    scale/zp) those same ~50k elements instead of the ~600k the whole
-    tensor holds, on top of not asking the runtime to do it for the whole
-    thing in the first place (see RknnModel.run()).
+    comment above for why box/other-class channels are skipped for every
+    *other* cell -- and only dequantizes (raw int8 -> float via this
+    tensor's own scale/zp) those same ~50k elements instead of the ~600k
+    the whole tensor holds, on top of not asking the runtime to do it for
+    the whole thing in the first place (see RknnModel.run()).
 
     NC1HWC2 indexing: logical channel c (0..254, anchor-major: anchor*85 +
     within-anchor-channel) tiles into (c1_idx, c2_idx) = divmod(c, c2).
@@ -236,10 +256,15 @@ def _max_car_confidence(output, c1, grid_h, grid_w, c2, scale, zp):
     (c1_idx*grid_h*grid_w + h*grid_w + w)*c2 + c2_idx -- so all grid_h*
     grid_w cells for one fixed (c1_idx, c2_idx) sit c2 elements apart
     (everything else in that c2-sized inner group is a different logical
-    channel), hence the step=c2 slice below instead of a contiguous one."""
+    channel), hence the step=c2 slice below instead of a contiguous one.
+
+    Returns (best_conf, anchor_idx, h, w) -- the last three identify which
+    single cell to decode a box for if best_conf clears the threshold (see
+    _decode_box()); (0.0, None, None, None) if the tensor holds nothing."""
     car_channel = 5 + CAR_CLASS_INDEX
     hw = grid_h * grid_w
     best = 0.0
+    best_anchor = best_h = best_w = None
     for anchor in range(N_ANCHORS_PER_SCALE):
         obj_c1, obj_c2 = divmod(anchor * CHANNELS_PER_ANCHOR + 4, c2)
         car_c1, car_c2 = divmod(anchor * CHANNELS_PER_ANCHOR + car_channel, c2)
@@ -247,22 +272,73 @@ def _max_car_confidence(output, c1, grid_h, grid_w, c2, scale, zp):
         car_start = car_c1 * hw * c2 + car_c2
         obj_slice = output[obj_start:obj_start + hw * c2:c2]
         car_slice = output[car_start:car_start + hw * c2:c2]
-        for obj_raw, car_raw in zip(obj_slice, car_slice):
+        for i, (obj_raw, car_raw) in enumerate(zip(obj_slice, car_slice)):
             obj = (obj_raw - zp) * scale
             car = (car_raw - zp) * scale
             conf = obj * car
             if conf > best:
                 best = conf
-    return best
+                best_anchor, best_h, best_w = anchor, i // grid_w, i % grid_w
+    return best, best_anchor, best_h, best_w
 
 
-def check_car_present(y_plane, uv_plane, stream_id):
+def _decode_box(output, c2, grid_h, grid_w, anchor_idx, scale_idx, h, w, scale, zp):
+    """Decodes the box (center x/y, width/height -> x0,y0,x1,y1) for one
+    specific (anchor, grid cell), in RKNN_INPUT_SIZE x RKNN_INPUT_SIZE
+    model-input pixel space. Standard YOLOv5 decode (matches
+    rknn_model_zoo's yolov5.py box_process(), just for a single cell
+    instead of the whole grid at once -- see module comment above for why
+    only ever one)."""
+    stride = RKNN_INPUT_SIZE / grid_w
+    anchor_w, anchor_h = ANCHORS[scale_idx][anchor_idx]
+    hw = grid_h * grid_w
+
+    def read(ch):
+        c1_idx, c2_idx = divmod(anchor_idx * CHANNELS_PER_ANCHOR + ch, c2)
+        idx = (c1_idx * hw + h * grid_w + w) * c2 + c2_idx
+        return (output[idx] - zp) * scale
+
+    tx, ty, tw, th = read(0), read(1), read(2), read(3)
+    cx = (tx * 2 - 0.5 + w) * stride
+    cy = (ty * 2 - 0.5 + h) * stride
+    bw = (tw * 2) ** 2 * anchor_w
+    bh = (th * 2) ** 2 * anchor_h
+    return cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2
+
+
+def _model_box_to_strip_crop(box_640, strip_w, src_h):
+    """Maps a box from RKNN_INPUT_SIZE x RKNN_INPUT_SIZE model-input space
+    (see _decode_box()) back to the lane strip's own pixel space (undoes
+    strip_to_rknn_input_bytes()'s letterbox scale+pad), clamped to the
+    strip's bounds, then narrows to PLATE_WITHIN_CAR_BOTTOM_FRAC of the
+    car's own height (see that constant's comment). Returns (x0, x1, y0,
+    y1) -- crop_plate_png_bytes()'s expected argument order."""
+    scale = min(RKNN_INPUT_SIZE / strip_w, RKNN_INPUT_SIZE / src_h)
+    inner_w = round(strip_w * scale)
+    inner_h = round(src_h * scale)
+    pad_x = (RKNN_INPUT_SIZE - inner_w) // 2
+    pad_y = (RKNN_INPUT_SIZE - inner_h) // 2
+
+    x0, y0, x1, y1 = box_640
+    x0 = max(0, min(strip_w, (x0 - pad_x) / scale))
+    x1 = max(0, min(strip_w, (x1 - pad_x) / scale))
+    y0 = max(0, min(src_h, (y0 - pad_y) / scale))
+    y1 = max(0, min(src_h, (y1 - pad_y) / scale))
+
+    y0 = y1 - (y1 - y0) * PLATE_WITHIN_CAR_BOTTOM_FRAC
+    return int(x0), int(x1), int(y0), int(y1)
+
+
+def detect_car(y_plane, uv_plane, stream_id):
     """The real "AI car detection" step -- runs yolov5n.rknn on the NPU for
-    one lane's current frame and returns whether a car is present anywhere
-    in it. Meant to be called (lazily, via a closure) from
-    parking_detector.LaneDetector.process()'s check_occupied_fn, so this
-    NPU inference only ever runs once a lane's settle wait has elapsed, not
-    every captured frame.
+    one lane's current frame. Returns (present: bool, crop_box: tuple|None)
+    -- crop_box is (x0, x1, y0, y1) in the lane strip's own pixel space
+    (crop_plate_png_bytes()'s expected order), covering the lower portion
+    of the actual detected car (see PLATE_WITHIN_CAR_BOTTOM_FRAC), or None
+    if no car cleared CAR_CONF_THRESH anywhere. Meant to be called (lazily,
+    via a closure) from parking_detector.LaneDetector.process()'s
+    check_occupied_fn, so this NPU inference only ever runs once a lane's
+    settle wait has elapsed, not every captured frame.
 
     Verified end-to-end on real hardware via the zero-copy path (see
     rknn_ctypes.py's module docstring for why zero-copy specifically --
@@ -276,12 +352,26 @@ def check_car_present(y_plane, uv_plane, stream_id):
     input_bytes = strip_to_rknn_input_bytes(y_plane, uv_plane, stream_id)
     outputs = _rknn_model.run(input_bytes)
 
+    best_conf, best_scale_idx = 0.0, None
+    best_anchor = best_h = best_w = None
     for i, output in enumerate(outputs):
         attr = _rknn_model.native_output_attrs[i]
         c1, grid_h, grid_w, c2 = attr.dims[1], attr.dims[2], attr.dims[3], attr.dims[4]
-        if _max_car_confidence(output, c1, grid_h, grid_w, c2, attr.scale, attr.zp) >= CAR_CONF_THRESH:
-            return True
-    return False
+        conf, anchor, h, w = _find_best_car(output, c1, grid_h, grid_w, c2, attr.scale, attr.zp)
+        if conf > best_conf:
+            best_conf, best_scale_idx = conf, i
+            best_anchor, best_h, best_w = anchor, h, w
+
+    if best_conf < CAR_CONF_THRESH:
+        return False, None
+
+    attr = _rknn_model.native_output_attrs[best_scale_idx]
+    grid_h, grid_w, c2 = attr.dims[2], attr.dims[3], attr.dims[4]
+    output = outputs[best_scale_idx]
+    box_640 = _decode_box(output, c2, grid_h, grid_w, best_anchor, best_scale_idx, best_h, best_w,
+                           attr.scale, attr.zp)
+    crop_box = _model_box_to_strip_crop(box_640, STRIP_W, SRC_H)
+    return True, crop_box
 
 
 class SpiFrameSender:
@@ -376,15 +466,15 @@ def main():
 
                 def check_occupied(s=stream):
                     try:
-                        return check_car_present(y_plane, uv_plane, s)
+                        return detect_car(y_plane, uv_plane, s)
                     except Exception as exc:  # noqa: BLE001 -- NPU/driver errors are unpredictable
                         # Keep the lane's last known status rather than
                         # crashing the whole pipeline over it -- an NPU
                         # hiccup on one lane's one settle check shouldn't
                         # take down video/other lanes' detection too.
-                        print(f"  lane {s}: RKNN check_car_present failed ({exc}), "
+                        print(f"  lane {s}: RKNN detect_car failed ({exc}), "
                               f"keeping previous status", file=sys.stderr)
-                        return detectors[s].occupied
+                        return detectors[s].occupied, None
 
                 reading = detectors[stream].process(y_small, now, check_occupied_fn=check_occupied)
                 del y_small

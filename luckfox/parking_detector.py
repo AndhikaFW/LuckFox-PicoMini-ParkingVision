@@ -118,12 +118,17 @@ class LaneDetector:
     def process(self, y_small: bytes, now: float = None, check_occupied_fn=None) -> LaneReading:
         """`check_occupied_fn`, if given, is called with no arguments -- and
         only right when the settle wait elapses, never on every frame -- to
-        decide occupancy; it should return a bool. Expected to be a closure
-        over this exact call's frame data (see spi_sender.py's real RKNN
-        check), so the (comparatively expensive) crop+resize+NPU-inference
-        it does only ever happens when this state machine actually needs an
-        answer. Falls back to the mean_abs_diff heuristic against
-        empty_reference if omitted (e.g. for testing this module alone)."""
+        decide occupancy; it should return (occupied: bool, car_box:
+        tuple|None), car_box being crop_plate_png_bytes()'s (x0, x1, y0,
+        y1) covering the actually-detected car (see spi_sender.py's
+        detect_car()) or None if the caller has no box to offer (occupied
+        can still be True with car_box=None). Expected to be a closure over
+        this exact call's frame data, so the (comparatively expensive)
+        crop+resize+NPU-inference it does only ever happens when this state
+        machine actually needs an answer. Falls back to the mean_abs_diff
+        heuristic against empty_reference (no box -- see _plate_crop_box())
+        if check_occupied_fn is omitted (e.g. for testing this module
+        alone)."""
         if now is None:
             now = time.time()
 
@@ -152,8 +157,9 @@ class LaneDetector:
 
         # -- Parked-car / occupancy check: only runs once, after the settle
         # wait elapses, not every frame (see module docstring). --
+        detected_box = None
         if check_occupied_fn is not None:
-            newly_occupied = check_occupied_fn()
+            newly_occupied, detected_box = check_occupied_fn()
         else:
             diff = mean_abs_diff(y_small, self.empty_reference)
             newly_occupied = diff > OCCUPANCY_THRESHOLD
@@ -168,7 +174,9 @@ class LaneDetector:
         if not was_occupied:
             # Newly occupied: crop + hand off for plate reading, one time
             # per parking event (not repeated every settle cycle a car sits
-            # there).
-            return LaneReading(occupied=True, status_changed=True,
-                                plate_crop_box=self._plate_crop_box())
+            # there). Prefer the real detected box; only fall back to the
+            # fixed-fraction guess if the caller didn't have one (e.g. the
+            # mean_abs_diff heuristic path, which has no notion of "where").
+            box = detected_box if detected_box is not None else self._plate_crop_box()
+            return LaneReading(occupied=True, status_changed=True, plate_crop_box=box)
         return LaneReading(occupied=True, status_changed=False)
