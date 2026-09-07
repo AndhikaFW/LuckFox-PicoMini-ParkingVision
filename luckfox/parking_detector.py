@@ -14,20 +14,17 @@ spi_sender.py already downsamples for the video stream -- no extra decode
 cost) -- it's just a coarse "did anything move" gate, not the actual car
 detection, so a real model would be wasted effort here.
 
-The occupancy check itself (once a lane settles) is *meant* to be real
-object detection, not a heuristic: RV1103 has an NPU (see
-luckfox/rknn_ctypes.py, a ctypes binding to the on-device librknnmrt.so --
-no rknnlite Python API or package manager exists on this image to install
-one) running a COCO-pretrained YOLOv5n (rknn_model_zoo), checked for its
-"car" class. That inference path is wired up end-to-end (model converted,
-loads on-device, metadata queries all succeed) but currently fails at the
-actual inference call with an unresolved runtime/driver-level error --
-see the KNOWN ISSUE note on check_car_present() in spi_sender.py.
-check_occupied() there catches that failure and falls back to this lane's
-last known status (not the heuristic below -- that fallback is a separate,
-simpler safety net for testing this module in isolation, see next
-paragraph), so the pipeline runs without crashing either way, just without
-real classification until the NPU issue is fixed.
+The occupancy check itself (once a lane settles) is real object detection,
+not a heuristic: RV1103 has an NPU (see luckfox/rknn_ctypes.py, a ctypes
+binding to the on-device librknnmrt.so -- no rknnlite Python API or
+package manager exists on this image to install one) running a
+COCO-pretrained YOLOv5n (rknn_model_zoo), checked for its "car" class.
+Verified end-to-end on real hardware. check_occupied() in spi_sender.py's
+main() still wraps this in a try/except and falls back to this lane's
+last known status on any failure (not the heuristic below -- that
+fallback is a separate, simpler safety net for testing this module in
+isolation, see next paragraph) -- NPU/driver calls are still external
+I/O, worth not trusting blindly even once proven working.
 
 LaneDetector doesn't import PIL/rknn directly -- the caller (spi_sender.py)
 injects a `check_occupied_fn` callback so this module stays free of those

@@ -217,24 +217,36 @@ def strip_to_rknn_input_bytes(y_plane, uv_plane, stream_id):
     return canvas.tobytes()
 
 
-def _max_car_confidence(output, grid_h, grid_w, scale, zp):
+def _max_car_confidence(output, c1, grid_h, grid_w, c2, scale, zp):
     """Max over all grid cells/anchors of objectness * P(car) for one
-    output tensor (an array('b', ...) of length 3*85*grid_h*grid_w in NCHW
-    order, native int8 -- see rknn_ctypes.RknnModel.run()). Only touches
-    the 2 of 85 channels per anchor that matter (objectness, car class) --
-    see module comment above for why box/other-class channels are skipped
-    entirely -- and only dequantizes (raw int8 -> float via this tensor's
-    own scale/zp) those same ~50k elements instead of the ~600k the whole
+    output tensor (an array('b', ...) native int8, NC1HWC2-tiled layout --
+    dims [1, c1, grid_h, grid_w, c2], see rknn_ctypes.py's module docstring
+    for why it's this and not plain NCHW). Only touches the 2 of 85
+    channels per anchor that matter (objectness, car class) -- see module
+    comment above for why box/other-class channels are skipped entirely --
+    and only dequantizes (raw int8 -> float via this tensor's own
+    scale/zp) those same ~50k elements instead of the ~600k the whole
     tensor holds, on top of not asking the runtime to do it for the whole
-    thing in the first place (see RknnModel.run())."""
-    n = grid_h * grid_w
+    thing in the first place (see RknnModel.run()).
+
+    NC1HWC2 indexing: logical channel c (0..254, anchor-major: anchor*85 +
+    within-anchor-channel) tiles into (c1_idx, c2_idx) = divmod(c, c2).
+    Flattened index for (c1_idx, h, w, c2_idx) in a row-major
+    [1, c1, grid_h, grid_w, c2] array is
+    (c1_idx*grid_h*grid_w + h*grid_w + w)*c2 + c2_idx -- so all grid_h*
+    grid_w cells for one fixed (c1_idx, c2_idx) sit c2 elements apart
+    (everything else in that c2-sized inner group is a different logical
+    channel), hence the step=c2 slice below instead of a contiguous one."""
     car_channel = 5 + CAR_CLASS_INDEX
+    hw = grid_h * grid_w
     best = 0.0
     for anchor in range(N_ANCHORS_PER_SCALE):
-        obj_base = (anchor * CHANNELS_PER_ANCHOR + 4) * n
-        car_base = (anchor * CHANNELS_PER_ANCHOR + car_channel) * n
-        obj_slice = output[obj_base:obj_base + n]
-        car_slice = output[car_base:car_base + n]
+        obj_c1, obj_c2 = divmod(anchor * CHANNELS_PER_ANCHOR + 4, c2)
+        car_c1, car_c2 = divmod(anchor * CHANNELS_PER_ANCHOR + car_channel, c2)
+        obj_start = obj_c1 * hw * c2 + obj_c2
+        car_start = car_c1 * hw * c2 + car_c2
+        obj_slice = output[obj_start:obj_start + hw * c2:c2]
+        car_slice = output[car_start:car_start + hw * c2:c2]
         for obj_raw, car_raw in zip(obj_slice, car_slice):
             obj = (obj_raw - zp) * scale
             car = (car_raw - zp) * scale
@@ -252,25 +264,10 @@ def check_car_present(y_plane, uv_plane, stream_id):
     NPU inference only ever runs once a lane's settle wait has elapsed, not
     every captured frame.
 
-    KNOWN ISSUE (unresolved): rknn_inputs_set() currently fails on this
-    board with RKNN_ERR_PARAM_INVALID (-5, logged by the runtime as
-    "context config invalid") on every input, regardless of: buffer
-    construction method (create_string_buffer vs a plain c_uint8 array,
-    both address-verified correct), pass_through mode, init flag
-    (0/1/2/4, all identical), or rknn-toolkit2/on-device-runtime version
-    match (re-verified by installing toolkit 1.6.0 to exactly match this
-    board's librknnmrt.so api version 1.6.0/driver 0.9.2, then
-    reconverting the model with it -- same failure). rknn_init() and
-    rknn_query() (IN_OUT_NUM, INPUT_ATTR, OUTPUT_ATTR, SDK_VERSION) all
-    succeed and return correct model metadata, so this is specific to
-    actually submitting a job, not model loading. Kernel dmesg shows
-    `RKNPU ff660000.npu: dev_pm_opp_set_regulators: no regulator (rknpu)
-    found: -19` at boot, which may or may not be the real cause -- not
-    confirmed, would need kernel/device-tree-level investigation beyond
-    this file's scope. check_occupied() in main() below catches whatever
-    this raises and falls back to the lane's last known status, so the
-    rest of the pipeline (video, motion gate, plate cropping once this is
-    fixed) keeps working either way."""
+    Verified end-to-end on real hardware via the zero-copy path (see
+    rknn_ctypes.py's module docstring for why zero-copy specifically --
+    the "legacy" buffer API rknn_api.h documents as the basic path doesn't
+    work on this board's runtime build)."""
     global _rknn_model
     if _rknn_model is None:
         from rknn_ctypes import RknnModel
@@ -280,9 +277,9 @@ def check_car_present(y_plane, uv_plane, stream_id):
     outputs = _rknn_model.run(input_bytes)
 
     for i, output in enumerate(outputs):
-        attr = _rknn_model.output_attrs[i]
-        grid_h, grid_w = attr.dims[2], attr.dims[3]
-        if _max_car_confidence(output, grid_h, grid_w, attr.scale, attr.zp) >= CAR_CONF_THRESH:
+        attr = _rknn_model.native_output_attrs[i]
+        c1, grid_h, grid_w, c2 = attr.dims[1], attr.dims[2], attr.dims[3], attr.dims[4]
+        if _max_car_confidence(output, c1, grid_h, grid_w, c2, attr.scale, attr.zp) >= CAR_CONF_THRESH:
             return True
     return False
 
