@@ -549,9 +549,9 @@
       "gencad": "",
       "idf": "",
       "netlist": "../../../LuckFox RAP Shield.net",
-      "plot": "",
+      "plot": "gerber/",
       "specctra_dsn": "",
-      "step": "",
+      "step": "3d/LuckFox RAP Shield.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
