@@ -19,17 +19,28 @@ not a heuristic: RV1103 has an NPU (see luckfox/rknn_ctypes.py, a ctypes
 binding to the on-device librknnmrt.so -- no rknnlite Python API or
 package manager exists on this image to install one) running a
 COCO-pretrained YOLOv5n (rknn_model_zoo), checked for its "car" class.
-Verified end-to-end on real hardware. check_occupied() in spi_sender.py's
-main() still wraps this in a try/except and falls back to this lane's
-last known status on any failure (not the heuristic below -- that
-fallback is a separate, simpler safety net for testing this module in
+Once a car's found, a second small YOLOv5n model (keremberke/
+yolov5n-license-plate, see spi_sender.py's PLATE_MODEL_PATH) runs on the
+car's own region to find the real plate box -- both verified end-to-end
+on real hardware, and both stay loaded on the NPU together (see
+spi_sender.py's _get_plate_model() for why: this pairing's combined
+buffer size fits this board's ~24MB CMA pool fine, confirmed stable over
+a 25-iteration real-workload stress test, unlike the reload-per-event
+design this replaced). check_occupied() in spi_sender.py's main() still
+wraps this in a try/except and falls back to this lane's last known
+status on any failure (not the heuristic below --
+that fallback is a separate, simpler safety net for testing this module in
 isolation, see next paragraph) -- NPU/driver calls are still external
 I/O, worth not trusting blindly even once proven working.
 
-LaneDetector doesn't import PIL/rknn directly -- the caller (spi_sender.py)
-injects a `check_occupied_fn` callback so this module stays free of those
-dependencies and is still testable with a plain heuristic (the
-mean_abs_diff fallback below) if no callback is given at all.
+LaneDetector doesn't import rknn directly -- the caller (spi_sender.py)
+injects a `check_occupied_fn` callback so this module stays free of that
+on-device-only dependency and is still testable (off real hardware, no
+NPU needed) with a plain heuristic (the mean_abs_diff fallback below) if
+no callback is given at all. mean_abs_diff *does* use PIL now (see its own
+docstring) -- unlike rknn, PIL is a normal portable dependency any dev
+machine running these tests already has, so it doesn't work against that
+same testability goal the way an NPU binding would.
 
 Plate OCR cannot run on-device either (no OCR engine, no way to install
 one). This only crops the plate-ish region and hands the crop back to the
@@ -40,6 +51,8 @@ recognition happens on the backend, which is a real Linux box that can run
 tesseract; StatusPacket's plate field stays "" until that lands.
 """
 import time
+
+from PIL import Image, ImageChops, ImageStat
 
 # "sleep 2 minutes" from the project brief -- give a car time to finish
 # parking (or leave) before spending a real occupancy check on it, instead
@@ -61,15 +74,28 @@ PLATE_CROP_FRAC = (0.25, 0.75, 0.60, 0.95)  # (x0, x1, y0, y1)
 
 def mean_abs_diff(a: bytes, b: bytes) -> float:
     """Cheap frame-difference metric over two equal-length grayscale byte
-    strings. Pure Python (no numpy on this device, see module docstring) --
-    O(n), but n is only dst_w*dst_h (600*400 = 240000 bytes) since this
-    always runs on the already-downsampled video snapshot, never the raw
-    source strip, and only once per lane per captured frame (~every 0.3s),
-    which keeps it well within budget."""
-    total = 0
-    for x, y in zip(a, b):
-        total += (x - y) if x > y else (y - x)
-    return total / len(a)
+    strings (only ever the already-downsampled video snapshot, 600x400 =
+    240000 bytes, never the raw source strip, and only once per lane per
+    captured frame -- see module docstring).
+
+    PIL's ImageChops.difference()+ImageStat, not a hand-rolled Python
+    loop -- measured on real hardware: the loop this replaced took ~200ms
+    per call (so ~600ms across 3 lanes, every single captured frame,
+    every settle-timeout wait notwithstanding -- this ran unconditionally
+    in the "idle" state, unlike the NPU calls, which only run once
+    settling elapses). An earlier version of this function's docstring
+    asserted the loop was "well within budget" -- untested at the time;
+    turned out to be the same mistake as spi_sender.py's downsample_plane()
+    (see its own docstring for the same story, found and fixed first --
+    this one was found by suspecting the same anti-pattern might be
+    lurking elsewhere on the same per-lane per-frame hot path, which it
+    was). Doesn't care that a/b aren't really 2D -- a pure per-pixel
+    absolute-difference-then-mean doesn't need real width/height, just a
+    shape PIL will accept, so this reshapes as a single len(a)-wide row."""
+    img_a = Image.frombytes("L", (len(a), 1), a)
+    img_b = Image.frombytes("L", (len(b), 1), b)
+    diff = ImageChops.difference(img_a, img_b)
+    return ImageStat.Stat(diff).mean[0]
 
 
 class LaneReading:
