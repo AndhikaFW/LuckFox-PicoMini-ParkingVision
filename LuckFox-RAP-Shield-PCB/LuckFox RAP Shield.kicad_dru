@@ -13,12 +13,17 @@
 	(constraint edge_clearance (min -2mm))
 )
 
-# The 4 traces feeding J1's castellated CS/SCK/MOSI/MISO pads (see rule
-# above) necessarily approach through the same board-edge overhang zone
-# as the pads themselves -- same exception, extended to the tracks so DRC
-# doesn't flag the approach as a second, separate false positive.
+# The traces feeding J1's castellated pads (see rule above) necessarily
+# approach through the same board-edge overhang zone as the pads
+# themselves -- same exception, extended to the tracks so DRC doesn't flag
+# the approach as a second, separate false positive. Originally only
+# listed the 4 SPI signal nets; extended to GND/+5V_RAIL/GPIO15/GPIO16
+# once raising the global edge-clearance minimum (see kicad_pro) surfaced
+# that they approach the exact same J1 edge zone (same X coordinates,
+# ~124.85mm/~146.15mm) and were only ever unflagged because the old global
+# minimum was 0, not because they're actually clear of the edge.
 (rule "J1 LuckFox SPI approach tracks"
-	(condition "A.NetName == 'Net-(B2-GPIO10_CS_LF)' || A.NetName == 'Net-(B2-GPIO11_MOSI_LF)' || A.NetName == 'Net-(B2-GPIO12_SCK_LF)' || A.NetName == 'Net-(B2-GPIO13_MISO_LF)'")
+	(condition "A.NetName == 'Net-(B2-GPIO10_CS_LF)' || A.NetName == 'Net-(B2-GPIO11_MOSI_LF)' || A.NetName == 'Net-(B2-GPIO12_SCK_LF)' || A.NetName == 'Net-(B2-GPIO13_MISO_LF)' || A.NetName == 'Net-(B2-GPIO15_DATA_RDY_IN)' || A.NetName == 'Net-(B2-GPIO16_SLAVE_RDY_OUT)' || A.NetName == 'GND' || A.NetName == '+5V_RAIL'")
 	(constraint edge_clearance (min -2mm))
 )
 
