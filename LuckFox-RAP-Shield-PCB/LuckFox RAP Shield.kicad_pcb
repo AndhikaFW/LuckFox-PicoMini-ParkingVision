@@ -84,7 +84,7 @@
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "gerber/drill/")
+			(outputdirectory "gerber/")
 		)
 	)
 	(footprint "MountingHole:MountingHole_3.2mm_M3"
