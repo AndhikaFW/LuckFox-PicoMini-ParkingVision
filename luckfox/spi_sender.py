@@ -18,7 +18,7 @@ split anything spatially, just multiplexed identical whole frames across
 
 Counterpart: src/ESP32-S3-RAP/main/luckfox_spi.{h,cpp} (SPI *slave* there --
 Linux spidev is master-only, and the ESP32 side already uses spi_master.h
-for the Gateway's ENC28J60, so this stays master / ESP32 stays slave to
+for the Gateway's W5500, so this stays master / ESP32 stays slave to
 avoid two masters on one bus).
 
 Encoding note: video frames are hardware-encoded H.264 (see

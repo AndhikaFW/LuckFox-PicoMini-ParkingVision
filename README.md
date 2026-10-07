@@ -17,7 +17,7 @@ Each parking-lot node is one **LuckFox Pico Mini** + one **ESP32-S3**, wired tog
 
 2. **ESP32-S3 RAP (chain relay + one Gateway uplink)**
    - Runs the exact same firmware on every unit (see [`src/ESP32-S3-RAP`](src/ESP32-S3-RAP)); role and chain position come from a small per-unit provisioning step, not a separate build.
-   - One designated node (`node_id == 0`, the **Gateway**) also carries an **ENC28J60** module and bridges to the Raspberry Pi 4 backend over a direct Ethernet cable (RJ45) -- it's still a parking-lot node like any other, just the one with this extra uplink role.
+   - One designated node (`node_id == 0`, the **Gateway**) also carries a **W5500** module and bridges to the Raspberry Pi 4 backend over a direct Ethernet cable (RJ45) -- it's still a parking-lot node like any other, just the one with this extra uplink role.
 
 ---
 
@@ -36,10 +36,10 @@ graph LR
         Node1["Lot 1<br>(LuckFox + ESP32-S3)"] -->|"status/plate + video"| Node2["Lot 2<br>(LuckFox + ESP32-S3)"]
         Node2 -->|"status/plate + video"| Node3["Lot 3<br>(LuckFox + ESP32-S3)"]
         Node3 -->|"status/plate + video"| NodeN["... Lot N-1"]
-        NodeN -->|"status/plate + video"| Gateway["Lot 0 / GATEWAY<br>(LuckFox + ESP32-S3 + ENC28J60)"]
+        NodeN -->|"status/plate + video"| Gateway["Lot 0 / GATEWAY<br>(LuckFox + ESP32-S3 + W5500)"]
     end
 
-    Gateway -->|"RJ45 (ENC28J60), status:5000 video:5300"| RPi["Raspberry Pi 4 backend"]
+    Gateway -->|"RJ45 (W5500), status:5000 video:5300"| RPi["Raspberry Pi 4 backend"]
 ```
 
 ### Why a chain instead of a mesh/star
